@@ -1,0 +1,15 @@
+#/etc/init/{{ app_name }}.conf
+description "{{ app_name }} Node.js"
+author "nils@woorank.com"
+ 
+start on (local-filesystems and net-device-up IFACE=eth0)
+stop on shutdown
+ 
+respawn
+respawn limit 5 60
+
+chdir {{ deploy_dir }}
+{% for item in node_env_vars %}
+env {{ item }}
+{% endfor %}
+exec node {{ deploy_dir }}/{{ script }} >> /var/log/{{ app_name }}.log 2>&1

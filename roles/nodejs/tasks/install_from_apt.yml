@@ -1,0 +1,20 @@
+---
+# These tasks install nodejs.
+
+- name: Install required nodejs prerequisites.
+  apt: pkg=${item} state=present
+  with_items:
+    - software-properties-common
+    - python-software-properties 
+    - python 
+    - g++ 
+    - make
+
+- name: Add nodejs reporsitory.
+  apt_repository: repo=ppa:chris-lea/node.js
+
+- name: Update cache for new repository.
+  apt: update_cache=yes
+
+- name: Install nodejs.
+  apt: pkg=nodejs state=present

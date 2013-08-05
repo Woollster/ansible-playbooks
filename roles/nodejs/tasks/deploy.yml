@@ -1,0 +1,32 @@
+---
+
+- name: Create group.
+  group: name=${group} state=present
+
+- name: Create user.
+  user: name=${user} group=${group} system=yes state=present
+
+- name: Create the app directory.
+  file: group=${group} owner=${user} mode=755 state=directory path=${deploy_dir}
+
+- name: Configure upstart script.
+  template: src=upstart.conf.j2 dest=/etc/init/${app_name}.conf
+
+- name: Configure log rotation.
+  template: src=logrotate.nodeapp.conf.j2 dest=/etc/logrotate.d/${app_name} mode=0644
+
+### MIGRATE TO BUILD PROCESS ###
+- name: Write code to the folder.
+  git: repo=https://${git_user}:${git_pass}@github.com/${repo}.git dest=${deploy_dir} version=master
+
+- name: Npm install.
+  command: npm install chdir=${deploy_dir}
+  notify: restart node app
+### END MIGRATE TO BUILD PROCESS ###
+
+- name: Change permissions.
+  shell: chown -R ${user}:${group} ${deploy_dir}
+
+- name: Configure monit script.
+  template: src=monit.conf.j2 dest=/etc/monit/conf.d/${app_name}.conf
+  notify: restart monit

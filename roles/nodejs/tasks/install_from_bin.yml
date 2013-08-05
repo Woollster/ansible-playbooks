@@ -1,0 +1,15 @@
+---
+# These tasks install nodejs.
+
+- name: Checking installed version of node.js
+  action: shell /usr/bin/test "$(node -v 2> /dev/null)" = v${node_version}
+  register: wanted_version_installed
+  ignore_errors: yes
+
+- name: Fetching node.js binary
+  action: get_url url=http://nodejs.org/dist/v${node_version}/${node_tarball} dest=/tmp/
+  when_failed: ${wanted_version_installed}
+
+- name: Unpack node.js binary tarball
+  command: tar zxf ${node_tarball} --strip-components=1  --no-same-owner -C /usr/local chdir=/tmp
+  when_failed: ${wanted_version_installed}

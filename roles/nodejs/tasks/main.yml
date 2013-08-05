@@ -1,0 +1,3 @@
+---
+- include: install_from_bin.yml
+- include: deploy.yml

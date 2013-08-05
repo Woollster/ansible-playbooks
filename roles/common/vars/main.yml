@@ -1,0 +1,7 @@
+system_packages:
+  - build-essential
+  - git
+  - curl
+  - wget
+  - monit
+  - logrotate
