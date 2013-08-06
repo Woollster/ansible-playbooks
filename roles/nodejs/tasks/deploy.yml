@@ -16,8 +16,17 @@
   template: src=logrotate.nodeapp.conf.j2 dest=/etc/logrotate.d/${app_name} mode=0644
 
 ### MIGRATE TO BUILD PROCESS ###
+- name: Upload the SSH key
+  copy: src=${deploy_key} dest=/tmp/id_rsa_deployment mode=600
+  only_if: "$vm == 1"
+
+- name: Configure SSH script
+  template: src=git_ssh.sh.j2 dest=/tmp/git_ssh.sh mode=700
+
 - name: Write code to the folder.
-  git: repo=https://${git_user}:${git_pass}@github.com/${repo}.git dest=${deploy_dir} version=master
+  git: repo=https://github.com/${repo}.git dest=${deploy_dir} version=master
+  environment:
+    GIT_SSH: /tmp/git_ssh.sh
 
 - name: Npm install.
   command: npm install chdir=${deploy_dir}
@@ -30,3 +39,4 @@
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/${app_name}.conf
   notify: restart monit
+  
