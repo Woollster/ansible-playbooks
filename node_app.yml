@@ -1,0 +1,10 @@
+---
+- hosts: all
+  vars_files: 
+  - ${vars_files_path}/main.yml
+  gather_facts: false
+  sudo: true
+
+  roles:
+    - common
+    - nodejs
