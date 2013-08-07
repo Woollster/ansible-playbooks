@@ -1,5 +1,6 @@
 system_packages:
   - build-essential
+  - python-setuptools
   - git
   - curl
   - wget
