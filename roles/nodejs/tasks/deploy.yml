@@ -18,7 +18,7 @@
 ### MIGRATE TO BUILD PROCESS ###
 - name: Upload the SSH key
   copy: src=${deploy_key} dest=/tmp/id_rsa_deployment mode=600
-  only_if: "$vm == 1"
+  when: deploy_key is defined
 
 - name: Configure SSH script
   template: src=git_ssh.sh.j2 dest=/tmp/git_ssh.sh mode=700
