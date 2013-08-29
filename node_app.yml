@@ -1,7 +1,14 @@
 ---
 - hosts: all
-  vars_files: 
-  - ${vars_files_path}/main.yml
+  vars:
+    arch: x64
+    port: 3000
+    app_name: node_app
+    user: ${app_name}
+    group: ${app_name}
+    deploy_dir: "/var/www/${app_name}"
+    script: Server.js
+    monit_http_check: /
   gather_facts: false
   sudo: true
 

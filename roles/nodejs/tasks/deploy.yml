@@ -27,6 +27,7 @@
   git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=master
   environment:
     GIT_SSH: /tmp/git_ssh.sh
+  when: repo is defined
 
 - name: Npm install.
   command: npm install chdir=${deploy_dir}
