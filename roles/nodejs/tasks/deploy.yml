@@ -40,4 +40,7 @@
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/${app_name}.conf
   notify: restart monit
-  
+
+- name: Forward additional ports.
+  shell: iptables -t nat -A PREROUTING -i eth0 -p tcp --dport ${additional_port} -j REDIRECT --to-port ${port}
+  when: additional_port is defined
