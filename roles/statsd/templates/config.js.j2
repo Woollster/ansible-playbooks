@@ -1,0 +1,16 @@
+{
+{% if hostedgraphite_api_key is defined %}
+
+  backends: [ "./backends/hostedgraphite" ],
+  hostedGraphiteAPIKey: "{{ hostedgraphite_api_key }}",
+
+{% elif graphite_host is defined %}
+
+  graphitePort: 2003, 
+  graphiteHost: "{{ graphite_host }}",
+  backends: [ "./backends/graphite" ],
+
+{% endif %}
+
+  port: 8125
+}

@@ -1,0 +1,6 @@
+#!monit
+set logfile /var/log/monit.log
+
+check process node with pidfile "/var/run/statsd.pid"
+    start program = "/sbin/start statsd"
+    stop program  = "/sbin/stop statsd"
