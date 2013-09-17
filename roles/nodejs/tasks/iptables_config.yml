@@ -1,0 +1,13 @@
+---
+
+- name: Forward additional ports.
+  command: iptables -t nat -A PREROUTING -i eth0 -p tcp --dport ${additional_port} -j REDIRECT --to-port ${port}
+  when: additional_port is defined
+
+- name: Save firewall rules.
+  command: sudo sh -c "iptables-save > /etc/iptables/rules"
+  when: additional_port is defined
+
+- name: Save firewall rules ipv4.
+  command: sudo sh -c "iptables-save > /etc/iptables/rules.v4"
+  when: additional_port is defined
