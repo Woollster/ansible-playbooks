@@ -5,9 +5,9 @@
   when: additional_port is defined
 
 - name: Save firewall rules.
-  command: sudo sh -c "iptables-save > /etc/iptables/rules"
+  command: sh -c "iptables-save > /etc/iptables/rules"
   when: additional_port is defined
 
 - name: Save firewall rules ipv4.
-  command: sudo sh -c "iptables-save > /etc/iptables/rules.v4"
+  command: sh -c "iptables-save > /etc/iptables/rules.v4"
   when: additional_port is defined
