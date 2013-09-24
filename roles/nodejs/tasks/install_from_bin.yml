@@ -7,7 +7,7 @@
   ignore_errors: yes
 
 - name: Fetching node.js binary
-  action: get_url url=http://nodejs.org/dist/v${node_version}/${node_tarball} dest=/tmp/
+  get_url: url=http://nodejs.org/dist/v${node_version}/${node_tarball} dest=/tmp/
   when_failed: ${wanted_version_installed}
 
 - name: Unpack node.js binary tarball
