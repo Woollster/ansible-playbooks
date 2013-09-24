@@ -9,7 +9,7 @@ respawn
 respawn limit 5 60
 
 chdir {{ deploy_dir }}
-{% for item in env_vars %}
+{% for item in env_vars.split(",") %}
 env {{ item }}
 {% endfor %}
 exec node {{ deploy_dir }}/{{ script }} >> /var/log/{{ app_name }}.log 2>&1
