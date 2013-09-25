@@ -3,7 +3,6 @@
   vars:
     arch: x64
     port: 3000
-    app_name: node_app
     user: ${app_name}
     group: ${app_name}
     deploy_dir: "/var/www/${app_name}"

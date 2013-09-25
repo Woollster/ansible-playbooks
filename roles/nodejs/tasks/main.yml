@@ -1,4 +1,5 @@
 ---
 - include: install_from_bin.yml
 - include: deploy.yml
+  when: app_name is defined
 - include: iptables_config.yml
