@@ -1,5 +1,8 @@
 ---
 
+- name: Deploy application.
+  shell: echo Deploying ${app_name} on port ${port}
+
 - name: Create group.
   group: name=${group} state=present
 

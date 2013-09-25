@@ -1,17 +1,7 @@
 ---
 - hosts: all
-  vars:
-    arch: x64
-    port: 3000
-    user: ${app_name}
-    group: ${app_name}
-    deploy_dir: "/var/www/${app_name}"
-    script: Server.js
-    monit_http_check: /
-    version: master
   gather_facts: false
   sudo: true
 
   roles:
-    - common
-    - nodejs
+    - nodejs_app
