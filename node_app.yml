@@ -15,4 +15,3 @@
   roles:
     - common
     - nodejs
-    - statsd
