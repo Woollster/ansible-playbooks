@@ -8,8 +8,8 @@
 
 - name: Fetching node.js binary
   action: get_url url=http://nodejs.org/dist/v${node_version}/${node_tarball} dest=/tmp/
-  when_failed: ${wanted_version_installed}
+  when: wanted_version_installed|failed
 
 - name: Unpack node.js binary tarball
   command: tar zxf ${node_tarball} --strip-components=1  --no-same-owner -C /usr/local chdir=/tmp
-  when_failed: ${wanted_version_installed}
+  when: wanted_version_installed|failed
