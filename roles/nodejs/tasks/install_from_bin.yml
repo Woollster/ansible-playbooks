@@ -1,15 +1,17 @@
 ---
 # These tasks install nodejs.
 
-- name: Checking installed version of node.js
-  action: shell /usr/bin/test "$(node -v 2> /dev/null)" = v${node_version}
-  register: wanted_version_installed
-  ignore_errors: yes
+- name: Create the app directory.
+  file: state=directory path=/opt/node-${node_version}
 
-- name: Fetching node.js binary
-  action: get_url url=http://nodejs.org/dist/v${node_version}/${node_tarball} dest=/tmp/
-  when: wanted_version_installed|failed
+- name: Fetching nodejs binary
+  get_url: url=http://nodejs.org/dist/v${node_version}/${node_tarball} dest=/tmp/
 
-- name: Unpack node.js binary tarball
-  command: tar zxf ${node_tarball} --strip-components=1  --no-same-owner -C /usr/local chdir=/tmp
-  when: wanted_version_installed|failed
+- name: Unpack nodejs binary tarball.
+  command: tar zxf ${node_tarball} --strip-components=1  --no-same-owner -C /opt/node-${node_version} chdir=/tmp creates=/opt/node-${node_version}/bin
+
+- name: Symlink the node executable.
+  file: dest=/usr/local/bin/node src=/opt/node-${node_version}/bin/node state=link
+
+- name: Symlink the npm executable.
+  file: dest=/usr/local/bin/npm src=/opt/node-${node_version}/bin/npm state=link
