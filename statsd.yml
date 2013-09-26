@@ -4,4 +4,6 @@
   sudo: true
 
   roles:
-    - nodejs_app
+    - common
+    - node_app
+    - statsd

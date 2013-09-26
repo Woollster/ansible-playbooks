@@ -1,2 +1,0 @@
-node_version: "0.10.15"
-node_tarball: "node-v${node_version}-linux-${arch}.tar.gz"

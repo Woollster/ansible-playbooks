@@ -4,5 +4,4 @@
   sudo: true
 
   roles:
-    - common
     - phantomjs

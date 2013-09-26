@@ -1,3 +1,19 @@
 ---
-- include: install_node.yml
-- include: statsd.yml
+# These tasks install nodejs.
+
+- name: Clone statsd project
+  git: repo=https://github.com/etsy/statsd.git dest=/opt/statsd version=master
+
+- name: Install hosted graphite backend if applicable.
+  command: wget -P /opt/statsd/backends https://raw.github.com/hostedgraphite/statsdplugin/master/hostedgraphite.js
+  when: hostedgraphite_api_key is defined
+
+- name: StatsD configuration.
+  template: src=config.js.j2 dest=/opt/statsd/config.js mode=0755
+
+- name: Configure upstart script.
+  template: src=upstart.conf.j2 dest=/etc/init/statsd.conf
+
+- name: Configure monit script.
+  template: src=monit.conf.j2 dest=/etc/monit/conf.d/statsd.conf
+  notify: restart monit
