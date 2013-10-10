@@ -1,3 +1,16 @@
-redis:
-  package: 'redis-server'
-  service: 'redis-server'
+redis: 
+  package: redis-server
+  rdb: 
+    - 
+      key_changes: "1"
+      minutes: "900"
+    - 
+      key_changes: "10"
+      minutes: "300"
+    - 
+      key_changes: "10000"
+      minutes: "60"
+  service: redis-server
+
+redis_port: "6379"
+sudo_user: "ubuntu"

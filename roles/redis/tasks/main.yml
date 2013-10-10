@@ -1,13 +1,3 @@
 ---
-# Install Redis server
-- name: "Install Redis server: {redis.package}"
-  apt: pkg=${redis.package} state=installed update-cache=yes
-
-#Configures Redis Server
-- name: Configure redis server.
-  template: src=redis.conf.j2 dest=/etc/redis/redis.conf
-  notify: restart redis
-
-# Ensure Redis server is running
-- name: "Ensure Redis server is running"
-  service: name=${redis.package} state=started
+- include: redis.yml
+- include: s3.yml
