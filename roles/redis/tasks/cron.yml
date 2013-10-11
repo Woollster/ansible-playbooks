@@ -1,13 +1,9 @@
 ---
-# Install Redis server
-- name: "Install Redis server: {redis.package}"
-  apt: pkg=${redis.package} state=installed update-cache=yes
+# Create backup cronjob
+- name: Save RDB backups to S3 bucket
+  cron: name="backup RDB" job="s3cmd put /var/lib/redis/dump.rdb ${s3_bucket}" minute="0" hour="2"
+  when: s3_bucket is defined
 
-#Configures Redis Server
-- name: Configure redis server.
-  template: src=redis.conf.j2 dest=/etc/redis/redis.conf
-  notify: restart redis
-
-# Ensure Redis server is running
-- name: "Ensure Redis server is running"
-  service: name=${redis.package} state=started
+- name: Save AOF backups to S3 bucket
+  cron: name="backup AOF" job="s3cmd put /var/lib/redis/appendonly.aof ${s3_bucket}" minute="15" hour="2"
+  when: s3_bucket is defined
