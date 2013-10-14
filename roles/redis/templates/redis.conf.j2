@@ -194,7 +194,10 @@ requirepass {{ redis_password }}
 # to upgrade. With maxmemory after the limit is reached you'll start to get
 # errors for write operations, and this may even lead to DB inconsistency.
 #
-# maxmemory <bytes>
+{% if redis_maxmem is defined %}
+maxmemory {{redis_maxmem}}
+{% endif %}
+
 
 # MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
 # is reached? You can select among five behavior:
