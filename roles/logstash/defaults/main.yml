@@ -1,0 +1,6 @@
+user: ubuntu
+group: adm
+deploy_dir: "/opt/logstash"
+log_dir: "/var/log"
+logstash_url: "https://download.elasticsearch.org/logstash/logstash/logstash-1.2.1-flatjar.jar"
+logstash_type: shipper

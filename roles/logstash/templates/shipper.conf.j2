@@ -1,0 +1,27 @@
+input {
+  {% if app_name is defined %}
+  file {
+    type => "applog"
+
+    path => ["/var/log/{{app_name}}.log"]
+  }
+  {% endif %}
+
+  file {
+    type => "syslog"
+
+    path => [ "/var/log/*.log", "/var/log/messages", "/var/log/syslog"]
+
+    {% if app_name is defined %}
+    exclude => ["/var/log/logstash.log","/var/log/{{app_name}}.log"]
+    {% else %}
+    exclude => ["/var/log/logstash.log"]
+    {% endif %}
+
+  }
+}
+
+output {
+  stdout { codec => rubydebug }
+  redis { host => "{{ redis_host }}" data_type => "list" key => "logstash" }
+}

@@ -1,0 +1,20 @@
+---
+
+- name: Apt install java.
+  apt: pkg=openjdk-7-jre-headless state=installed
+
+- name: Create the app directory.
+  file: group=${group} owner=${user} mode=755 state=directory path=${deploy_dir}
+
+- name: Download logstash jar.
+  get_url: url=${logstash_url} dest=${deploy_dir}/logstash.jar mode=755
+
+- name: Configure logstash script.
+  template: src=${logstash_type}.conf.j2 dest=${deploy_dir}/logstash.conf
+
+- name: Configure upstart script.
+  template: src=logstash_upstart.conf.j2 dest=/etc/init/logstash.conf
+  notify: restart logstash
+
+- name: Configure log rotation.
+  template: src=logrotate.conf.j2 dest=/etc/logrotate.d/${app_name} mode=0644

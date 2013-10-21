@@ -1,0 +1,7 @@
+{{log_dir}}/logstash.log {
+  daily
+  copytruncate
+  notifempty
+  rotate 30
+  compress
+}

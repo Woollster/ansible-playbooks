@@ -1,0 +1,16 @@
+input {
+  redis {
+    host => "{{ redis_host }}"
+    data_type => "list"
+    key => "logstash"
+    codec => json
+  }
+}
+
+output {
+  stdout { codec => rubydebug }
+
+  elasticsearch_http {
+    host => "{{ elasticsearch_host }}"
+  }
+}
