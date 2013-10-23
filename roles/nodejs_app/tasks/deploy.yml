@@ -33,7 +33,7 @@
   when: repo is defined
 
 - name: Npm install.
-  command: npm install chdir=${deploy_dir}
+  command: npm install --production chdir=${deploy_dir}
   notify: restart node app
 ### END MIGRATE TO BUILD PROCESS ###
 
