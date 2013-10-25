@@ -13,9 +13,9 @@ input {
     path => [ "/var/log/*.log", "/var/log/messages", "/var/log/syslog"]
 
     {% if app_name is defined %}
-    exclude => ["/var/log/logstash.log","/var/log/{{app_name}}.log"]
+    exclude => ["logstash.log","{{app_name}}.log"]
     {% else %}
-    exclude => ["/var/log/logstash.log"]
+    exclude => ["logstash.log"]
     {% endif %}
 
   }
