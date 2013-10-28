@@ -1,0 +1,6 @@
+serf_url: "https://dl.bintray.com/mitchellh/serf/0.1.1_linux_amd64.zip"
+serf_role: "node"
+serf_cluster_ip: "127.0.0.1"
+serf_update_config_url: "/"
+
+port: 80

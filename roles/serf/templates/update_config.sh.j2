@@ -1,0 +1,5 @@
+cd /tmp
+s3cmd get {{ serf_update_config_url }} hosts
+rm /etc/hosts
+cat hosts > /etc/hosts
+chmod 644 /etc/hosts

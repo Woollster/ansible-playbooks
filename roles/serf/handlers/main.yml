@@ -1,0 +1,5 @@
+- name: restart serf
+  service: name=serf state=restarted
+
+- name: restart serf_join
+  service: name=serf_join state=restarted

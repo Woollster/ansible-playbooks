@@ -1,0 +1,29 @@
+---
+# Install unzip
+- name: "Install unzip"
+  apt: pkg=unzip state=installed update-cache=yes
+
+#Download serf
+- name: Download serf.
+  command: wget -O serf.zip ${serf_url} chdir=/tmp
+
+#Unzip serf
+- name: Unzip serf.
+  command: unzip serf.zip chdir=/tmp
+
+#Moves serf to path
+- name: Moves serf to path.
+  command: mv serf /usr/local/bin/serf chdir=/tmp
+
+- name: Add serf update config event handler.
+  template: src=update_config.sh.j2 dest=/usr/local/bin/update_config.sh
+
+- name: Add serf service.
+  template: src=serf_upstart.conf.j2 dest=/etc/init/serf.conf
+  notify: restart serf
+
+- name: Add serf_join service.
+  template: src=serf_join_upstart.conf.j2 dest=/etc/init/serf_join.conf
+  notify: restart serf_join
+
+- include: s3.yml
