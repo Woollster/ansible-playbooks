@@ -1,0 +1,28 @@
+php_packages:
+  - mysql-client
+  - libmysqlclient-dev
+  - php5-cgi
+  - php5
+  - php5-dev
+  - php5-cli
+  - php-pear
+  - php5-xsl
+  - php5-curl
+  - php5-xmlrpc
+  - php5-sqlite
+  - php5-gd
+  - php5-sasl
+  - php5-mysql
+  - php5-memcache
+  - php5-tidy
+  - php5-xcache
+  - php-xml-parser
+  - php-mail-mime
+  - php-db
+  - php-mdb2
+  - php-html-common
+  - php5-fpm
+
+pecl_packages:
+  - mongo
+  - memcache

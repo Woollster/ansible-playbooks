@@ -1,0 +1,4 @@
+---
+- include: php_packages.yml
+- include: configuration.yml
+- include: pecl.yml

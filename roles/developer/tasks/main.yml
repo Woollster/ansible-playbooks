@@ -1,0 +1,4 @@
+---
+- include: packages.yml
+- include: php_pecl.yml
+- include: etc_hosts.yml

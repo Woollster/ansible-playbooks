@@ -1,0 +1,7 @@
+---
+
+- name: Configure SSH script
+  template: src=php.ini.j2 dest=/etc/php.ini mode=0644
+  
+- name: Configure log rotation.
+  template: src=logrotate.nodeapp.conf.j2 dest=/etc/logrotate.d/${app_name} mode=0644
