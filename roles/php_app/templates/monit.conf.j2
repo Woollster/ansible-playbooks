@@ -1,0 +1,7 @@
+check host localhost with address 127.0.0.1
+        start "/etc/init.d/nginx start && /etc/init.d/php5-fpm start"
+        stop "/etc/init.d/nginx stop && /etc/init.d/php5-fpm stop"
+        if failed port {{ port }} protocol HTTP
+                request {{ monit_http_check }}
+                with timeout 5 seconds
+                then restart

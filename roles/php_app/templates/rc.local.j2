@@ -1,0 +1,6 @@
+{% for item in extra_directories %}
+mkdir {{ item }}
+sudo chmod 777 {{ item }}
+{% endfor %}
+
+exit 0

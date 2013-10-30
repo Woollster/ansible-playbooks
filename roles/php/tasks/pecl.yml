@@ -1,6 +1,3 @@
 - name: Install pecl components.
   shell: pecl install ${item}
   with_items: ${pecl_packages}
-
-- name: Install browscap
-  template: source=browscap.ini.j2 dest=/etc/browscap.ini

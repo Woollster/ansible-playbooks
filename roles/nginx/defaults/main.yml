@@ -1,5 +1,5 @@
 delete_default_vhost: false
-user: nginx
-worker_processes: $ansible_processor_count
+nginx_user: www-data
+worker_processes: 4
 pid: /var/run/nginx.pid
 worker_connections: 768

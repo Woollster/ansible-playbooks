@@ -1,7 +1,13 @@
 ---
 
-- name: Configure SSH script
-  template: src=php.ini.j2 dest=/etc/php.ini mode=0644
+- name: Configure mongo ini script
+  template: src=mongo.ini.j2 dest=/etc/php5/fpm/conf.d/mongo.ini mode=0644
+  
+- name: Configure browscap ini script
+  template: src=browscapphp.ini.j2 dest=/etc/php5/fpm/conf.d/browscap.ini mode=0644
   
 - name: Configure log rotation.
-  template: src=logrotate.nodeapp.conf.j2 dest=/etc/logrotate.d/${app_name} mode=0644
+  template: src=logrotate.php.conf.j2 dest=/etc/logrotate.d/php mode=0644
+
+- name: Install browscap
+  template: src=browscap.ini.j2 dest=/etc/php5/browscap.ini

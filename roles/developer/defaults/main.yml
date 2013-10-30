@@ -1,6 +1,2 @@
 developer_packages:
-  - apache2
-  - php-pear
-  - php5-dev
-  - libcurl3-openssl-dev
   - memcached

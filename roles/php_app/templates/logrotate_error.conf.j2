@@ -1,0 +1,7 @@
+/var/log/{{ app_name }}.log {
+  daily
+  copytruncate
+  notifempty
+  rotate 30
+  compress
+}

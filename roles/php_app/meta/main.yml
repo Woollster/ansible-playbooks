@@ -2,3 +2,4 @@
 dependencies:
   - { role: nginx }
   - { role: php }
+  - { role: redis }

@@ -2,15 +2,17 @@
 # Install Redis server
 - name: Adding s3cmd key to apt-get
   apt_key: url=http://s3tools.org/repo/deb-all/stable/s3tools.key state=present
+  when: backup is defined
 
   # Install Redis server
 - name: Adding s3cmd repository to apt-get
   apt_repository: repo='deb http://s3tools.org/repo/deb-all stable/' state=present
-
+  when: backup is defined
 
 - name: Install s3cmd on the system.
   apt: pkg=s3cmd state=present
-
+  when: backup is defined
 #Configures Redis Server
 - name: Configuring s3cmd.
   template: src=s3cfg.j2 dest=/home/${sudo_user}/.s3cfg
+  when: backup is defined
