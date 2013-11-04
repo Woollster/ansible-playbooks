@@ -26,3 +26,5 @@ php_packages:
 pecl_packages:
   - mongo
   - memcache
+
+php_with_pckgs: true
