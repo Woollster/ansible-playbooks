@@ -45,6 +45,10 @@
     GIT_SSH: /tmp/git_ssh.sh
   when: repo is defined
 
+- name: Link code to the folder.
+  file: src=/vagrant dest=${deploy_dir} state=link
+  when: vagrant is defined
+
 - name: Write configuration json
   template: src=config.json.j2 dest=/tmp/config.json
 
