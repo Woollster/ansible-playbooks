@@ -1,7 +1,5 @@
 ---
 dependencies:
   - { role: nodejs }
-  - { role: nginx }
-  - { role: php }
-  - { role: redis }
   - { role: mysql }
+  - { role: php_app }

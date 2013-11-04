@@ -5,3 +5,5 @@ host: localhost
 deploy_dir: "/var/www/${app_name}"
 monit_http_check: /
 version: master
+extra_directories:
+  - /tmp/temp

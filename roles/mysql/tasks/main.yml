@@ -7,6 +7,10 @@
   with_items:
     - python-pip
     - mysql-server
+    - python-mysqldb
+
+- name: Install mysql-python
+  shell: easy_install -U distribute
 
 - name: Install pip
   shell: pip install -U pip
@@ -17,9 +21,6 @@
   with_items:
     - python-dev
     - libmysqlclient-dev
-
-- name: Install mysql-python
-  shell: easy_install -U distribute
 
 - name: Install mysql-python
   shell: pip install MySQL-python
