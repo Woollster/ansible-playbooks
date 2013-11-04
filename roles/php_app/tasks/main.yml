@@ -53,7 +53,7 @@
   template: src=config.json.j2 dest=/tmp/config.json
 
 - name: Format configuration json
-  shell: cat /tmp/config.json | sed 's/\\//g' >> ${deploy_dir}/application/configs/config.json
+  shell: cat /tmp/config.json | sed 's/\\//g' >> ${deploy_dir}/${config_dir}.json
   notify: restart php
 
 ### END MIGRATE TO BUILD PROCESS ###
