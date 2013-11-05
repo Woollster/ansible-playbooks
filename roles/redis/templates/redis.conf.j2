@@ -28,7 +28,11 @@ appendfsync everysec
 no-appendfsync-on-rewrite no
 vm-enabled no
 vm-swap-file /var/lib/redis/redis.swap
+{% if redis_vm_maxmem is defined %}
 vm-max-memory {{ redis_vm_maxmem }}
+{% else %}
+vm-max-memory 0
+{% endif %}
 vm-page-size 32
 vm-pages 134217728
 vm-max-threads 4
