@@ -40,6 +40,10 @@
 - name: Change permissions.
   shell: chown -R ${user}:${group} ${deploy_dir}
 
+- name: Install potentials extra scripts.
+  shell: . ${deploy_dir}/${node_app_extra_script} chdir=${deploy_dir}
+  when: node_app_extra_script is defined
+
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/${app_name}.conf
   notify: restart monit
