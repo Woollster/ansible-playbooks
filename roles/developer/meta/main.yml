@@ -1,4 +1,5 @@
 ---
 dependencies:
   - { role: nodejs }
+  - { role: mysql }
   - { role: php_app }

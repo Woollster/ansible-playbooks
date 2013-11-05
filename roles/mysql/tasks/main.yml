@@ -10,7 +10,7 @@
     - python-mysqldb
 
 - name: Install mysql-python
-  shell: easy_install -U distribute
+  command: easy_install -U distribute creates=/tmp/easy_install_executed
 
 - name: Install pip
   shell: pip install -U pip

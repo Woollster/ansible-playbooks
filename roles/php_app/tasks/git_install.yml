@@ -1,0 +1,61 @@
+---
+
+- name: Create group.
+  group: name=${group} state=present
+
+- name: Create user.
+  user: name=${user} group=${group} system=yes state=present
+  
+- name: Create extra directories.
+  file: mode=777 state=directory path=${item}
+  with_items: ${extra_directories}
+  when: extra_directories is defined
+
+- name: Create extra directories.
+  template: src=rc.local.j2 dest=/etc/rc.local mode=777
+  when: extra_directories is defined
+
+- name: Configure nginx template.
+  template: src=app.nginx.j2 dest=/etc/nginx/sites-available/${app_name}
+
+- name: Link nginx template.
+  file: src=/etc/nginx/sites-available/${app_name} dest=/etc/nginx/sites-enabled/${app_name} state=link
+  notify: restart nginx
+
+- name: Create the app directory.
+  file: group=${group} owner=${user} mode=755 state=directory path=${deploy_dir}
+
+- name: Configure log rotation success.
+  template: src=logrotate_success.conf.j2 dest=/etc/logrotate.d/${app_name}_success mode=0644
+
+- name: Configure log rotation error.
+  template: src=logrotate_error.conf.j2 dest=/etc/logrotate.d/${app_name}_error mode=0644
+
+### MIGRATE TO BUILD PROCESS ###
+- name: Upload the SSH key
+  copy: src=${deploy_key} dest=/tmp/id_rsa_deployment mode=600
+  when: deploy_key is defined
+
+- name: Configure SSH script
+  template: src=git_ssh.sh.j2 dest=/tmp/git_ssh.sh mode=700
+
+- name: Write code to the folder.
+  git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=${version}
+  environment:
+    GIT_SSH: /tmp/git_ssh.sh
+
+- name: Write configuration json
+  template: src=config.json.j2 dest=/tmp/config.json
+
+- name: Format configuration json
+  shell: cat /tmp/config.json | sed 's/\\//g' >> ${deploy_dir}/${config_dir}.json
+  notify: restart php
+
+### END MIGRATE TO BUILD PROCESS ###
+
+- name: Change permissions.
+  shell: chown -R ${user}:${group} ${deploy_dir}
+
+- name: Configure monit script.
+  template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
+  notify: restart monit
