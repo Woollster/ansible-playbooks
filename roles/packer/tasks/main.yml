@@ -1,0 +1,16 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Apt install unzip.
+  apt: pkg=unzip state=installed
+
+- name: Create tmp dir.
+  shell: mkdir /tmp/packer
+
+- name: Fetch file
+  shell: wget https://dl.bintray.com/mitchellh/packer/0.3.6_linux_386.zip chdir=/tmp/packer
+
+- name: Move packer install files to path.
+  shell: mv * /usr/bin/ chdir=/tmp/packer
