@@ -9,7 +9,7 @@ databases 16
 save {{ item.minutes }} {{ item.key_changes }}
 {% endfor %}
 rdbcompression yes
-dbfilename dump.rdb
+dbfilename {{ redis_name }}_dump.rdb
 dir /var/lib/redis
 slave-serve-stale-data yes
 {% if redis_password is defined %}
@@ -18,12 +18,13 @@ requirepass {{ redis_password }}
 {% if redis_maxmem is defined %}
 maxmemory {{redis_maxmem}}
 {% endif %}
+maxmemory-policy volatile-ttl
 {% if redis_aof is defined %}
 appendonly yes
 {% else %}
 appendonly no
 {% endif %}
-appendfilename appendonly.aof
+appendfilename {{ redis_name }}_appendonly.aof
 appendfsync everysec
 no-appendfsync-on-rewrite no
 vm-enabled no
@@ -45,3 +46,4 @@ activerehashing yes
 {% if redis_master_ip is defined %}
 slaveof {{ redis_master_ip }} {{ redis_master_port }}
 {% endif %}
+timeout 300
