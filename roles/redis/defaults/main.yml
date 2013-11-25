@@ -14,3 +14,4 @@ redis:
 
 redis_port: "6379"
 sudo_user: "ubuntu"
+redis_master_port: "6379"

@@ -27,7 +27,7 @@ appendfilename appendonly.aof
 appendfsync everysec
 no-appendfsync-on-rewrite no
 vm-enabled no
-vm-swap-file /var/lib/redis/redis.swap
+vm-swap-file /vafmaxr/lib/redis/redis.swap
 {% if redis_vm_maxmem is defined %}
 vm-max-memory {{ redis_vm_maxmem }}
 {% else %}
@@ -42,3 +42,6 @@ list-max-ziplist-entries 512
 list-max-ziplist-value 64
 set-max-intset-entries 512
 activerehashing yes
+{% if redis_master_ip is defined %}
+slaveof {{ redis_master_ip }} {{ redis_master_port }}
+{% endif %}

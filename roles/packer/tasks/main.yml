@@ -6,11 +6,14 @@
 - name: Apt install unzip.
   apt: pkg=unzip state=installed
 
-- name: Create tmp dir.
-  shell: mkdir /tmp/packer
+- name: Create packer dir.
+  file: path=/tmp/packer state=directory
 
 - name: Fetch file
   shell: wget https://dl.bintray.com/mitchellh/packer/0.3.6_linux_386.zip chdir=/tmp/packer
 
+- name: Unzip file
+  shell: unzip /tmp/packer/0.3.6_linux_386.zip
+
 - name: Move packer install files to path.
-  shell: mv * /usr/bin/ chdir=/tmp/packer
+  shell: mv /tmp/packer/* /usr/bin/

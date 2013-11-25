@@ -47,3 +47,4 @@
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/${app_name}.conf
   notify: restart monit
+  when: monit_http_check is defined
