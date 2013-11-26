@@ -1,0 +1,28 @@
+---
+  - name: install apache2
+    action: apt name=apache2
+
+  - name: write apache2.conf
+    template: src=apache2.conf.j2 dest=/etc/apache2/apache2.conf
+    notify:
+      - restart apache2
+  
+  # Activate a number of Apache modules.
+  - name: activate apache2 modules
+    action: file state=link src=/etc/apache2/mods-available/$item path=/etc/apache2/mods-enabled/$item
+    with_items:
+    - rewrite.load
+    - headers.load
+    - ssl.load
+    - ssl.conf
+    notify:
+    - restart apache2
+    
+  - name: delete 000-default vhost
+    action: file path=/etc/apache2/sites-enabled/000-default state=absent   
+  
+  - name: delete default vhost
+    action: file path=/etc/apache2/sites-available/default state=absent    
+  
+  - name: delete default ssl vhost
+    action: file path=/etc/apache2/sites-available/default-ssl state=absent

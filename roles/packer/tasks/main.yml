@@ -16,4 +16,4 @@
   shell: unzip /tmp/packer/0.3.6_linux_386.zip
 
 - name: Move packer install files to path.
-  shell: mv /tmp/packer/* /usr/bin/
+  shell: yes yes | sudo mv /tmp/packer/* /usr/bin/

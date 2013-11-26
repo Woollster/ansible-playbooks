@@ -46,4 +46,3 @@ activerehashing yes
 {% if redis_master_ip is defined %}
 slaveof {{ redis_master_ip }} {{ redis_master_port }}
 {% endif %}
-timeout 300

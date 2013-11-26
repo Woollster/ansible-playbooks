@@ -1,0 +1,5 @@
+---
+port: 80
+apache2_user: www-data
+base_dir: "/var/www"
+deploy_dir: "${base_dir}/${app_name}"

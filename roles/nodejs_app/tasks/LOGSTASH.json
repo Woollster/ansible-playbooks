@@ -1,0 +1,32 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Wolfpack",
+    "Parameters": {
+        "InstanceSecurityGroupId": {
+            "Description": "EC2 instance Security group",
+            "Type": "String"
+        },
+        "RedisSecurityGroupId": {
+            "Type": "String",
+            "Description": "Environment",
+            "Default": "sg-b8e4f0da"
+        }
+    },
+    "Resources": {
+        "RedisSecurityGroupBaseIngress": {
+            "Type": "AWS::EC2::SecurityGroupIngress",
+            "Properties": {
+                "GroupId": {
+                    "Ref": "InstanceSecurityGroupId"
+                },
+                "IpProtocol": "tcp",
+                "FromPort": "6379",
+                "ToPort": "6379",
+                "SourceSecurityGroupId": {
+                    "Ref":"RedisSecurityGroupId"
+                }
+            }
+        }
+    },
+    "Outputs": {}
+}
