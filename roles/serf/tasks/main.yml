@@ -15,8 +15,14 @@
 - name: Moves serf to path.
   command: mv serf /usr/local/bin/serf chdir=/tmp
 
+- name: Create the serf directory.
+  file: mode=755 state=directory path=/usr/local/serf_events
+
 - name: Add serf update config event handler.
-  template: src=update_config.sh.j2 dest=/usr/local/bin/update_config.sh
+  template: src=initialize_mapping.sh.j2 dest=/usr/local/serf_events/initialize_mapping.sh
+
+- name: Add serf update config event handler.
+  template: src=update_mapping.sh.j2 dest=/usr/local/serf_events/update_mapping.sh
 
 - name: Add serf service.
   template: src=serf_upstart.conf.j2 dest=/etc/init/serf.conf
@@ -25,5 +31,3 @@
 - name: Add serf_join service.
   template: src=serf_join_upstart.conf.j2 dest=/etc/init/serf_join.conf
   notify: restart serf_join
-
-- include: s3.yml
