@@ -3,4 +3,4 @@ description "Serf agent"
 start on runlevel [2345]
 stop on runlevel [!2345]
 
-exec /usr/local/bin/serf agent -event-handler "user:update_config=/usr/local/bin/update_config.sh" -event-handler "member-join=/usr/local/bin/update_config.sh" -role={{ serf_role }} >>/var/log/serf.log 2>&1
+exec /usr/local/bin/serf agent -event-handler "user:update_config=/usr/local/serf_events/update_mapping.sh" -event-handler "member-join=/usr/local/serf_events/initialize_mapping.sh" -role={{ serf_role }} >>/var/log/serf.log 2>&1

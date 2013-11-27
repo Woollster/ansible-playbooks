@@ -1,7 +1,0 @@
-cd /tmp
-s3cmd get {{ serf_update_config_url }} /tmp/new_config
-sed '/### start woo config/,/### end woo config/d' < /etc/hosts > /tmp/hosts
-cat /tmp/new_config >> /tmp/hosts
-rm /etc/hosts
-cat /tmp/hosts > /etc/hosts
-chmod 644 /etc/hosts
