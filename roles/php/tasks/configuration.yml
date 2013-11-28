@@ -6,7 +6,7 @@
 - name: Configure browscap ini script
   template: src=browscapphp.ini.j2 dest=/etc/php5/fpm/conf.d/browscap.ini mode=0644
 
-- name: Configure mysqk ini script
+- name: Configure mysql ini script
   template: src=php_mysql.ini.j2 dest=/etc/php5/fpm/conf.d/php_mysql.ini mode=0644
   
 - name: Configure log rotation.
@@ -14,4 +14,8 @@
 
 - name: Install browscap
   template: src=browscap.ini.j2 dest=/etc/php5/browscap.ini
+  notify: restart php5
+  
+- name: Configure yaml ini script
+  template: src=php_yaml.ini.j2 dest=/etc/php5/php_yaml.ini
   notify: restart php5

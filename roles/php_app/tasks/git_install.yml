@@ -15,13 +15,6 @@
   template: src=rc.local.j2 dest=/etc/rc.local mode=777
   when: extra_directories is defined
 
-- name: Configure nginx template.
-  template: src=app.nginx.j2 dest=/etc/nginx/sites-available/${app_name}
-
-- name: Link nginx template.
-  file: src=/etc/nginx/sites-available/${app_name} dest=/etc/nginx/sites-enabled/${app_name} state=link
-  notify: restart nginx
-
 - name: Create the app directory.
   file: group=${group} owner=${user} mode=755 state=directory path=${deploy_dir}
 
@@ -43,6 +36,27 @@
   git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=${version}
   environment:
     GIT_SSH: /tmp/git_ssh.sh
+    
+- name: Configure nginx template from defined source
+  template: src=${web_template} dest=/etc/nginx/sites-available/${app_name}
+  register: custom
+  ignore_errors: True
+
+- name: Configure default nginx template when no custom template is defined
+  template: src=app.nginx.j2 dest=/etc/nginx/sites-available/${app_name}
+  when: custom|failed
+
+- name: Configure nginx ssl template only when defined
+  template: src=${web_ssl_template} dest=/etc/nginx/sites-available/${app_name}
+  when: web_ssl_template is defined  
+
+- name: Link nginx ssl template only when defined
+  file: src=/etc/nginx/sites-available/${app_name}_ssl dest=/etc/nginx/sites-enabled/${app_name}_ssl state=link
+  when: web_ssl_template is defined
+
+- name: Link nginx template.
+  file: src=/etc/nginx/sites-available/${app_name} dest=/etc/nginx/sites-enabled/${app_name} state=link
+  notify: restart nginx  
 
 - name: Write configuration json
   template: src=config.json.j2 dest=/tmp/config.json
@@ -51,10 +65,24 @@
   shell: cat /tmp/config.json | sed 's/\\//g' >> ${deploy_dir}/${config_dir}config.json
   notify: restart php
 
+
 ### END MIGRATE TO BUILD PROCESS ###
 
 - name: Change permissions.
   shell: chown -R ${user}:${group} ${deploy_dir}
+  
+- name: ensure nginx is running
+  service: name=nginx state=started
+  
+- name: Grant special permissions
+  file: mode=777 state=directory path=${deploy_dir}/${item}
+  with_items: ${special_permissions}
+  when: special_permissions is defined
+
+- name: Special Startup tasks
+  shell: ${item}
+  with_items: ${startup_tasks}
+  when: startup_tasks is defined  
 
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf

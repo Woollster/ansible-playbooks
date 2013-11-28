@@ -1,6 +1,8 @@
 php_packages:
   - mysql-client
   - libmysqlclient-dev
+  - libyaml-dev
+  - libapache2-mod-php5
   - php5-cgi
   - php5
   - php5-dev
@@ -12,19 +14,23 @@ php_packages:
   - php5-sqlite
   - php5-gd
   - php5-sasl
+  - php5-imagick  
   - php5-mysql
-  - php5-memcache
+  - php5-memcache  
   - php5-tidy
   - php5-xcache
+  - php5-mcrypt  
   - php-xml-parser
   - php-mail-mime
   - php-db
   - php-mdb2
-  - php-html-common
-  - php5-fpm
+  - php-date
+  - php-soap
+  - php-html-common  
 
 pecl_packages:
   - mongo
   - memcache
+  - yaml-beta
 
 php_with_pckgs: true
