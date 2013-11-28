@@ -10,10 +10,10 @@
   file: path=/tmp/packer mode=755 state=directory
 
 - name: Fetch file
-  shell: wget https://dl.bintray.com/mitchellh/packer/0.3.6_linux_386.zip chdir=/tmp/packer
+  shell: sudo wget https://dl.bintray.com/mitchellh/packer/0.3.6_linux_386.zip chdir=/tmp/packer
 
 - name: Unzip file
-  shell: yes yes | sudo unzip /tmp/packer/0.3.6_linux_386.zip
+  shell: yes yes | sudo unzip /tmp/packer/0.3.6_linux_386.zip chdir=/tmp/packer
 
 - name: Move packer install files to path.
-  shell: yes yes | sudo mv /tmp/packer/* /usr/bin/
+  shell: yes yes | sudo mv /tmp/packer/* /usr/bin/ chdir=/tmp/packer
