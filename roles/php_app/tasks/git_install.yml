@@ -39,12 +39,11 @@
     
 - name: Configure nginx template from defined source
   template: src=${web_template} dest=/etc/nginx/sites-available/${app_name}
-  register: custom
-  ignore_errors: True
+  when: web_template is defined
 
 - name: Configure default nginx template when no custom template is defined
   template: src=app.nginx.j2 dest=/etc/nginx/sites-available/${app_name}
-  when: custom|failed
+  when: web_template is not defined
 
 - name: Configure nginx ssl template only when defined
   template: src=${web_ssl_template} dest=/etc/nginx/sites-available/${app_name}
