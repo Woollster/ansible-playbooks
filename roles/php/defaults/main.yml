@@ -26,7 +26,8 @@ php_packages:
   - php-mdb2
   - php-date
   - php-soap
-  - php-html-common  
+  - php-html-common
+  - php5-fpm  
 
 pecl_packages:
   - mongo
