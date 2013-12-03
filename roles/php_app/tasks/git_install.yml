@@ -88,4 +88,3 @@
 - name: Special startup url
   get_url: url={{startup_url}} dest=/tmp/startup_test mode=0777
   when: startup_url is defined
-
