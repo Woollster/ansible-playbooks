@@ -71,7 +71,6 @@
 - name: Grant special permissions
   file: mode=777 state=directory path=${deploy_dir}/${item}
   with_items: ${special_permissions}
-  when: special_permissions is defined  
 
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
