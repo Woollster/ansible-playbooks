@@ -2,19 +2,17 @@
   file: owner=${nginx_user} mode=755 state=directory path=/etc/nginx/ssl
 
 - name: Add server certificate from a defined source
-  template: src=server.crt.j2 dest=/etc/nginx/ssl/server.crt mode=0644
-  register: custom_cert
-  ignore_errors: True
-  
-- name: Configure default server certificate when no custom certificate is defined
-  template: src={{ssl_certificate}} dest=/etc/nginx/ssl/server.crt mode=0644
-  when: custom_cert|failed   
+  get_url: url={{ssl_certificate}} dest=/etc/nginx/ssl/server.crt mode=0644
+  when: ssl_certificate is defined
 
+- name: Configure default server certificate when no custom certificate is defined
+  template: src=server.crt.j2 dest=/etc/nginx/ssl/server.crt mode=0644
+  when: ssl_certificate is not defined  
+  
 - name: Add server key from a defined source
-  template: src=server.key.j2 dest=/etc/nginx/ssl/server.key mode=0644
-  register: custom_key
-  ignore_errors: True
+  get_url: url={{ssl_key}} dest=/etc/nginx/ssl/server.key mode=0644
+  when: ssl_key is defined
 
 - name: Configure default server key when no custom key is defined
-  template: src={{ssl_key}} dest=/etc/nginx/ssl/server.key mode=0644
-  when: custom_key|failed
+  template: src=server.key.j2 dest=/etc/nginx/ssl/server.key mode=0644
+  when: ssl_key is not defined
