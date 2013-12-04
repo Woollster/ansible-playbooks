@@ -13,8 +13,8 @@
   template: src=logrotate.php.conf.j2 dest=/etc/logrotate.d/php mode=0644
 
 - name: Install browscap
-  template: src=browscap.ini.j2 dest=/etc/php5/browscap.ini  
+  template: src=browscap.ini.j2 dest=/etc/php5/fpm/conf.d/browscap.ini mode=0644
   
 - name: Configure yaml ini script
-  template: src=php_yaml.ini.j2 dest=/etc/php5/php_yaml.ini
+  template: src=php_yaml.ini.j2 dest=/etc/php5/fpm/conf.d/php_yaml.ini mode=0644
   notify: restart php5
