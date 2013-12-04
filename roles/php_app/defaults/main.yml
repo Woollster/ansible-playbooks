@@ -5,6 +5,7 @@ host: localhost
 base_dir: "/var/www"
 deploy_dir: "${base_dir}/${app_name}"
 monit_http_check: /
+deploy_subdir: "/public"
 version: master
 extra_directories:
   - /tmp/temp
