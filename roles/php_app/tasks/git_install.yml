@@ -62,7 +62,7 @@
 
 - name: Format configuration json
   shell: cat /tmp/config.json | sed 's/\\//g' >> ${deploy_dir}/${config_dir}config.json
-  notify: restart php5
+  notify: restart php
 
 
 ### END MIGRATE TO BUILD PROCESS ###
@@ -73,14 +73,17 @@
 - name: ensure nginx is running
   service: name=nginx state=started
   
+- name: ensure php5 is restarted
+  service: name=php5-fpm state=restarted 
+  
 - name: Grant special permissions
   file: mode=777 state=directory path=${deploy_dir}/${item}
   with_items: ${special_permissions}
-  when: special_permissions is defined
+  when: special_permissions is defined  
 
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
-  notify: restart monit
+  notify: restart monit  
 
 - name: Special startup url
   get_url: url={{startup_url}} dest=/tmp/startup_test mode=0777
