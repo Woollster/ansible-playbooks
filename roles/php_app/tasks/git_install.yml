@@ -76,7 +76,3 @@
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
   notify: restart monit  
-
-- name: Special startup url
-  get_url: url={{startup_url}} dest=/tmp/startup_test mode=0777
-  when: startup_url is defined
