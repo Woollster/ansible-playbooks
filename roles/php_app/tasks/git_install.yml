@@ -38,20 +38,12 @@
     GIT_SSH: /tmp/git_ssh.sh
     
 - name: Configure nginx template from defined source
-  template: src=${web_template} dest=/etc/nginx/sites-available/${app_name}
-  when: web_template is defined
+  template: src=${deploy_dir}${app_template} dest=/etc/nginx/sites-available/${app_name}
+  when: app_template is defined
 
 - name: Configure default nginx template when no custom template is defined
   template: src=app.nginx.j2 dest=/etc/nginx/sites-available/${app_name}
-  when: web_template is not defined
-
-- name: Configure nginx ssl template only when defined
-  template: src=app_ssl.nginx.j2 dest=/etc/nginx/sites-available/${app_name}_ssl
-  when: web_ssl_template is defined
-
-- name: Link nginx ssl template only when defined
-  file: src=/etc/nginx/sites-available/${app_name}_ssl dest=/etc/nginx/sites-enabled/${app_name}_ssl state=link
-  when: web_ssl_template is defined
+  when: app_template is not defined
 
 - name: Link nginx template.
   file: src=/etc/nginx/sites-available/${app_name} dest=/etc/nginx/sites-enabled/${app_name} state=link
