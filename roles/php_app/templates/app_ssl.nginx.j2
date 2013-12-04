@@ -1,0 +1,43 @@
+server {
+    listen      443;
+    root        {{ deploy_dir }}{{deploy_subdir}};
+    server_name {{ host }};
+    access_log  /var/log/nginx/access.{{ app_name }}.log;
+    error_log   /var/log/{{ app_name }}.log;
+    index       /index.php;
+    
+    ssl on;
+    ssl_certificate /etc/nginx/ssl/server.crt;
+    ssl_certificate_key /etc/nginx/ssl/server.key; 
+
+    location ~ \..*/.*\.php$ {
+        return 403;
+    }
+
+    # Block hidden files
+    location ~ (^|/)\. {
+        return 403;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    location ~ \.(php|phtml)$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_param APPLICATION_ENV  {{ env }} ;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PHP_VALUE "error_log=/var/log/nginx/error.{{ app_name }}.log";
+        fastcgi_pass 127.0.0.1:9000;
+        #fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+    }
+
+    location ~* \.(html|js|ico|gif|jpg|png|css|flv|swf|txt)$ {
+        expires max;
+        log_not_found off;
+    }
+}
