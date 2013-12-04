@@ -39,16 +39,15 @@
     
 - name: Configure nginx template from defined source
   template: src=${web_template} dest=/etc/nginx/sites-available/${app_name}
-  register: custom
-  ignore_errors: True
+  when: web_template is defined
 
 - name: Configure default nginx template when no custom template is defined
   template: src=app.nginx.j2 dest=/etc/nginx/sites-available/${app_name}
-  when: custom|failed
+  when: web_template is not defined
 
 - name: Configure nginx ssl template only when defined
-  template: src=${web_ssl_template} dest=/etc/nginx/sites-available/${app_name}
-  when: web_ssl_template is defined  
+  template: src=app_ssl.nginx.j2 dest=/etc/nginx/sites-available/${app_name}_ssl
+  when: web_ssl_template is defined
 
 - name: Link nginx ssl template only when defined
   file: src=/etc/nginx/sites-available/${app_name}_ssl dest=/etc/nginx/sites-enabled/${app_name}_ssl state=link
@@ -56,14 +55,14 @@
 
 - name: Link nginx template.
   file: src=/etc/nginx/sites-available/${app_name} dest=/etc/nginx/sites-enabled/${app_name} state=link
-  notify: restart nginx  
+  notify: restart nginx 
 
 - name: Write configuration json
   template: src=config.json.j2 dest=/tmp/config.json
 
 - name: Format configuration json
   shell: cat /tmp/config.json | sed 's/\\//g' >> ${deploy_dir}/${config_dir}config.json
-  notify: restart php
+  notify: restart php5
 
 
 ### END MIGRATE TO BUILD PROCESS ###
@@ -79,11 +78,10 @@
   with_items: ${special_permissions}
   when: special_permissions is defined
 
-- name: Special Startup tasks
-  shell: ${item}
-  with_items: ${startup_tasks}
-  when: startup_tasks is defined  
-
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
   notify: restart monit
+
+- name: Special startup url
+  get_url: url={{startup_url}} dest=/tmp/startup_test mode=0777
+  when: startup_url is defined

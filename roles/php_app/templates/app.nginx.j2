@@ -1,6 +1,6 @@
 server {
     listen      {{ port }};
-    root        {{ deploy_dir }}/public;
+    root        {{ deploy_dir }}{{deploy_subdir}};
     server_name {{ host }};
     access_log  /var/log/nginx/access.{{ app_name }}.log;
     error_log   /var/log/{{ app_name }}.log;
