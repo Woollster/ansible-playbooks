@@ -2,7 +2,6 @@ php_packages:
   - mysql-client
   - libmysqlclient-dev
   - libyaml-dev
-  - libapache2-mod-php5
   - php5-cgi
   - php5
   - php5-dev
