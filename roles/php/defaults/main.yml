@@ -15,6 +15,7 @@ php_packages:
   - php5-sasl
   - php5-imagick  
   - php5-mysql
+  - imagemagick
   - php5-memcache  
   - php5-tidy
   - php5-xcache

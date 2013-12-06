@@ -5,11 +5,6 @@
 
 - name: Create user.
   user: name=${user} group=${group} system=yes state=present
-  
-- name: Create extra directories.
-  file: mode=777 state=directory path=${item}
-  with_items: ${extra_directories}
-  when: extra_directories is defined
 
 - name: Create extra directories.
   template: src=rc.local.j2 dest=/etc/rc.local mode=777
@@ -36,6 +31,11 @@
   git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=${version}
   environment:
     GIT_SSH: /tmp/git_ssh.sh
+
+- name: Create extra directories.
+  file: mode=777 state=directory path=${item}
+  with_items: ${extra_directories}
+  when: extra_directories is defined
     
 - name: Configure nginx template from defined source
   template: src=${deploy_dir}${app_template} dest=/etc/nginx/sites-available/${app_name}
