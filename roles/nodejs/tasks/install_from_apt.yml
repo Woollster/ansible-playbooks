@@ -2,7 +2,7 @@
 # These tasks install nodejs.
 
 - name: Install required nodejs prerequisites.
-  apt: pkg=${item} state=present
+  apt: pkg={{item}} state=present
   with_items:
     - software-properties-common
     - python-software-properties 

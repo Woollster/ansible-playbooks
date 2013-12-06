@@ -1,21 +1,21 @@
 ---
 
 - name: Create group.
-  group: name=${group} state=present
+  group: name={{group}} state=present
 
 - name: Create user.
-  user: name=${user} group=${group} system=yes state=present
+  user: name={{user}} group={{group}} system=yes state=present
 
 - name: Configure nginx template.
-  template: src=app.nginx.j2 dest=/etc/nginx/sites-available/${app_name}
+  template: src=app.nginx.j2 dest=/etc/nginx/sites-available/{{app_name}}
 
 - name: Link nginx template.
-  file: src=/etc/nginx/sites-available/${app_name} dest=/etc/nginx/sites-enabled/${app_name} state=link
+  file: src=/etc/nginx/sites-available/{{app_name}} dest=/etc/nginx/sites-enabled/{{app_name}} state=link
   notify: restart nginx
 
 - name: Create the app directory.
-  file: group=${group} owner=${user} mode=755 state=directory path=${base_dir}
+  file: group={{group}} owner={{user}} mode=755 state=directory path={{base_dir}}
 
 - name: Link code to the folder.
-  file: src=/vagrant dest=${deploy_dir} owner=${user} group=${group} state=link
+  file: src=/vagrant dest={{deploy_dir}} owner={{user}} group={{group}} state=link
   when: vagrant is defined

@@ -2,7 +2,7 @@
   apt: update_cache=yes cache_valid_time=3600
 
 - name: Install MySQL
-  apt: pkg=$item state=installed
+  apt: pkg={{item}} state=installed
   notify: restart mysql
   with_items:
     - python-pip
@@ -16,7 +16,7 @@
   shell: pip install -U pip
 
 - name: Install MySQL
-  apt: pkg=$item state=installed
+  apt: pkg={{item}} state=installed
   notify: restart mysql
   with_items:
     - python-dev
@@ -26,4 +26,4 @@
   shell: pip install MySQL-python
 
 - name: update mysql root password for all root accounts
-  mysql_user: name=${mysql_user} host=${mysql_host} password=${mysql_root_password}
+  mysql_user: name={{mysql_user}} host={{mysql_host}} password={{mysql_root_password}}

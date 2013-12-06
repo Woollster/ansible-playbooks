@@ -1,50 +1,50 @@
 ---
 
 - name: Deploy application.
-  shell: echo Deploying ${app_name} on port ${port}
+  shell: echo Deploying {{app_name}} on port {{port}}
 
 - name: Create group.
-  group: name=${group} state=present
+  group: name={{group}} state=present
 
 - name: Create user.
-  user: name=${user} group=${group} system=yes state=present
+  user: name={{user}} group={{group}} system=yes state=present
 
 - name: Create the app directory.
-  file: group=${group} owner=${user} mode=755 state=directory path=${deploy_dir}
+  file: group={{group}} owner={{user}} mode=755 state=directory path={{deploy_dir}}
 
 - name: Configure upstart script.
-  template: src=upstart.conf.j2 dest=/etc/init/${app_name}.conf
+  template: src=upstart.conf.j2 dest=/etc/init/{{app_name}}.conf
 
 - name: Configure log rotation.
-  template: src=logrotate.nodeapp.conf.j2 dest=/etc/logrotate.d/${app_name} mode=0644
+  template: src=logrotate.nodeapp.conf.j2 dest=/etc/logrotate.d/{{app_name}} mode=0644
 
 ### MIGRATE TO BUILD PROCESS ###
 - name: Upload the SSH key
-  copy: src=${deploy_key} dest=/tmp/id_rsa_deployment mode=600
+  copy: src={{deploy_key}} dest=/tmp/id_rsa_deployment mode=600
   when: deploy_key is defined
 
 - name: Configure SSH script
   template: src=git_ssh.sh.j2 dest=/tmp/git_ssh.sh mode=700
 
 - name: Write code to the folder.
-  git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=${version}
+  git: repo=ssh://git@github.com/{{repo}}.git dest={{deploy_dir}} version={{version}}
   environment:
     GIT_SSH: /tmp/git_ssh.sh
   when: repo is defined
 
 - name: Npm install.
-  command: npm install --production chdir=${deploy_dir}
+  command: npm install --production chdir={{deploy_dir}}
   notify: restart node app
 ### END MIGRATE TO BUILD PROCESS ###
 
 - name: Change permissions.
-  shell: chown -R ${user}:${group} ${deploy_dir}
+  shell: chown -R {{user}}:{{group}} {{deploy_dir}}
 
 - name: Install potentials extra scripts.
-  shell: . ${deploy_dir}/${node_app_extra_script} chdir=${deploy_dir}
+  shell: . {{deploy_dir}}/{{node_app_extra_script}} chdir={{deploy_dir}}
   when: node_app_extra_script is defined
 
 - name: Configure monit script.
-  template: src=monit.conf.j2 dest=/etc/monit/conf.d/${app_name}.conf
+  template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
   notify: restart monit
   when: monit_http_check is defined

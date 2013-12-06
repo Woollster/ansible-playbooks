@@ -9,7 +9,7 @@
   
   # Activate a number of Apache modules.
   - name: activate apache2 modules
-    action: file state=link src=/etc/apache2/mods-available/$item path=/etc/apache2/mods-enabled/$item
+    action: file state=link src=/etc/apache2/mods-available/{{item}} path=/etc/apache2/mods-enabled/{{ item }}
     with_items:
     - rewrite.load
     - headers.load

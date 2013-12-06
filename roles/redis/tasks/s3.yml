@@ -14,5 +14,5 @@
   when: backup is defined
 #Configures Redis Server
 - name: Configuring s3cmd.
-  template: src=s3cfg.j2 dest=/home/${sudo_user}/.s3cfg
+  template: src=s3cfg.j2 dest=/home/{{sudo_user}}/.s3cfg
   when: backup is defined

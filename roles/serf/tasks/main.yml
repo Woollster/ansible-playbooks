@@ -5,7 +5,7 @@
 
 #Download serf
 - name: Download serf.
-  command: wget -O serf.zip ${serf_url} chdir=/tmp
+  command: wget -O serf.zip {{serf_url}} chdir=/tmp
 
 #Unzip serf
 - name: Unzip serf.
