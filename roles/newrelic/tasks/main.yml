@@ -17,3 +17,12 @@
   
 - name: restart php5-fpm service
   service: name=php5-fpm state=restarted
+ 
+- name: ensure newrelic-sysmond is installed
+  action: apt pkg=newrelic-sysmond state=present
+
+- name: update newrelic nrsysmond.cfg with license key
+  template: src=nrsysmond.ini.j2 dest=/etc/newrelic/nrsysmond.cfg mode=0644
+
+- name: start newrelic-sysmond
+  service: name=newrelic-sysmond state=started
