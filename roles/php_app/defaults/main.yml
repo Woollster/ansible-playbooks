@@ -11,3 +11,5 @@ deploy_subdir: "/public"
 version: master
 extra_directories:
   - /tmp/temp
+extra_php_packages:
+  - git
