@@ -1,5 +1,10 @@
 ---
 
+- name: Install potential extra packages needed.
+  apt: pkg=${item} state=installed
+  with_items: ${extra_php_packages}
+  when: extra_php_packages is defined
+
 - name: Create group.
   group: name=${group} state=present
 
