@@ -11,12 +11,15 @@
 
 - name: ensure newrelic-php5 is installed
   action: apt pkg=newrelic-php5 state=present
+  when: php_agent is defined
 
 - name: update newrelic.ini with license key 
   template: src=newrelic.ini.j2 dest=/etc/php5/fpm/conf.d/newrelic.ini mode=0644
+  when: php_agent is defined
   
 - name: restart php5-fpm service
   service: name=php5-fpm state=restarted
+  when: php_agent is defined
  
 - name: ensure newrelic-sysmond is installed
   action: apt pkg=newrelic-sysmond state=present
