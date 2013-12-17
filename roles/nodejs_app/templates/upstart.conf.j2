@@ -9,7 +9,13 @@ respawn
 respawn limit 5 60
 
 chdir {{ deploy_dir }}
+
+limit nofile {{ ulimit_openfiles }} {{ ulimit_openfiles }}
+
+#
 {% for item in env_vars.split(",") %}
 env {{ item }}
 {% endfor %}
+#
+
 exec node {{ deploy_dir }}/{{ script }} >> /var/log/{{ app_name }}.log 2>&1

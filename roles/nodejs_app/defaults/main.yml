@@ -5,3 +5,4 @@ deploy_dir: "/var/www/${app_name}"
 script: Server.js
 monit_http_check: /
 version: master
+ulimit_openfiles: 1024
