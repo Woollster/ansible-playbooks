@@ -4,3 +4,5 @@
 
 - include: vagrant_install.yml
   when: vagrant is defined
+
+- include: logrotate.yml

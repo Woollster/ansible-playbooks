@@ -1,0 +1,18 @@
+/var/log/nginx/access*.log {
+  dateext
+  dateformat -%Y-%m-%d-%s
+
+  rotate 30
+
+  missingok
+  notifempty
+  sharedscripts
+  nocompress
+  postrotate
+
+  BUCKET={{ logrotate_bucket }}
+  INSTANCE_ID=`curl --silent http://169.254.169.254/latest/meta-data/instance-id`
+  /usr/bin/s3cmd -m text/plain sync /var/log/nginx/access* s3://${BUCKET}/access_log/{{ app_name }}/instance=${INSTANCE_ID}/
+
+  endscript
+}

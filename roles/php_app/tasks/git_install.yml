@@ -17,12 +17,6 @@
 - name: Create the app directory.
   file: group=${group} owner=${user} mode=755 state=directory path=${deploy_dir}
 
-- name: Configure log rotation success.
-  template: src=logrotate_success.conf.j2 dest=/etc/logrotate.d/${app_name}_success mode=0644
-
-- name: Configure log rotation error.
-  template: src=logrotate_error.conf.j2 dest=/etc/logrotate.d/${app_name}_error mode=0644
-
 ### MIGRATE TO BUILD PROCESS ###
 - name: Upload the SSH key
   copy: src=${deploy_key} dest=/tmp/id_rsa_deployment mode=600
