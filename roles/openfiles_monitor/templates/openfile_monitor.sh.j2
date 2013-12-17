@@ -1,0 +1,8 @@
+#!/bin/bash
+str=`pgrep -f {{ app_name }}`
+str2=`sudo ls -l /proc/$str/fd | grep -c ""`
+if [ $str2 -lt {{ openfile_threshold }} ]
+then
+NOW=$(date +"%D-%T")
+echo "["$NOW"] WARNING: Low open file number - "$str2 >> /var/log/openfiles.log
+fi

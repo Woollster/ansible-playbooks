@@ -1,0 +1,18 @@
+---
+
+- name: Create openfile dir.
+  file: path={{openfile_base_dir}} mode=755 state=directory
+  when: app_name is defined
+
+- name: Put the openfile script
+  template: src=openfile_monitor.sh.j2 dest={{openfile_base_dir}}openfile_monitor.sh mode=777
+  when: app_name is defined
+
+- name: Put the cron script
+  template: src=cron.sh.j2 dest={{openfile_base_dir}}cron.sh mode=777
+  when: app_name is defined
+
+- name: Create the cronjob
+  cron: job=". {{openfile_base_dir}}cron.sh" name="monitor openfiles"
+  when: app_name is defined
+
