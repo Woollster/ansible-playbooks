@@ -6,5 +6,4 @@ system_packages:
   - wget
   - monit
   - logrotate
-  - s3cmd
   - iptables-persistent

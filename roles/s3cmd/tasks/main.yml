@@ -1,0 +1,14 @@
+---
+# These tasks install s3cmd from source.
+
+- name: Create the s3cmd app directory.
+  file: state=directory path=/opt/s3cmd
+
+- name: Fetching s3cmd archive
+  get_url: url=https://github.com/s3tools/s3cmd/archive/v1.5.0-beta1.tar.gz dest=/tmp/
+
+- name: Unpack s3cmd tarball to app dir.
+  command: tar zxf v1.5.0-beta1.tar.gz --strip-components=1  --no-same-owner -C /opt/s3cmd chdir=/tmp creates=/opt/s3cmd/s3cmd
+
+- name: Symlink the s3cmd executable.
+  file: dest=/usr/local/bin/s3cmd src=/opt/s3cmd/s3cmd state=link
