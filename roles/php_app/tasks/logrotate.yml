@@ -5,7 +5,7 @@
   when: logrotate_bucket is defined
 
 - name: Create the cronjob
-  cron: name="run access log rotation" minute="0" user="root" job="logrotate -f /etc/logrotate.d/${app_name}_access"
+  cron: name="run access log rotation" minute="0" user="root" job="/usr/sbin/logrotate -f /etc/logrotate.d/${app_name}_access"
   when: logrotate_bucket is defined
 
 - name: Configure log rotation error.
