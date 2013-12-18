@@ -1,5 +1,6 @@
 ---
 dependencies:
+  - { role: s3cmd }
   - { role: nginx }
   - { role: php }
   - { role: redis }
