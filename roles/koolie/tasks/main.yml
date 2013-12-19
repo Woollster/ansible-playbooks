@@ -1,0 +1,14 @@
+---
+
+- name: Install koolie.
+  command: npm install https://github.com/Woorank/koolie/archive/master.tar.gz -g
+
+- name: Placing serf event handler.
+  template: src=update_config.sh.j2 dest={{serf_install_dir}}/events/update_config.sh mode=0777
+
+- name: Placing serf event handler.
+  template: src=readFiles.sh.j2 dest={{serf_install_dir}}/events/readFiles.js mode=0777
+
+- name: Placing serf event handler.
+  template: src=koolie_conf.json.j2 dest={{serf_install_dir}}/events/readFiles.js mode=0777
+  notify: restart serf
