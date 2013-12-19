@@ -11,11 +11,5 @@
 - name: Configure get_region script.
   template: src=get_region.sh.j2 dest=/usr/bin/get_region.sh
 
-- name: Configure aws script.
-  template: src=aws_config.sh.j2 dest=/tmp/init_config.sh
-
-- name: Configure get_region script.
-  shell: . /tmp/init_config.sh
-
 - name: Configure get_tag script.
   template: src=get_tag.sh.j2 dest=/usr/bin/get_tag.sh
