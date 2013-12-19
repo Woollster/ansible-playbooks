@@ -1,0 +1,9 @@
+- name: Apt install required system packages.
+  apt: pkg={{item}} state=installed
+  with_items: get_tag_packages
+
+- name: Install awscli
+  pip: name=awscli
+
+- name: Configure upstart script.
+  template: src=get_tag.sh.j2 dest=/usr/bin/get_tag.sh

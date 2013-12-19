@@ -1,0 +1,11 @@
+#!/bin/bash
+dirName="/tmp/config_"$(date +"%s")"/";
+environment=`. get_tag.sh environment`
+mkdir $dirName
+
+{% for item in {{ variable_namespaces }} %}
+sudo koolie -c woo.configtest GETNS /applications/{{app_name}}/{{item}}/$environment --json --access_key {{ koolie_access_key }} --secret_key {{ koolie_access_secret }} > $dirName/1.json
+{% endfor %}
+
+node {{serf_install_dir}}/events/readFiles.js $dirName
+rm -R $dirName
