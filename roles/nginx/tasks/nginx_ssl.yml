@@ -2,7 +2,11 @@
   file: owner=${nginx_user} mode=755 state=directory path=/etc/nginx/ssl
 
 - name: Add server certificate from a defined source
-  get_url: url={{ssl_certificate}} dest=/etc/nginx/ssl/server.crt mode=0644
+  shell: s3cmd get {{ssl_certificate}} /etc/nginx/ssl/server.crt --force  
+  when: ssl_certificate is defined
+  
+- name: Assign proper permissions to the server certificate file
+  file: mode=0644 state=file path=/etc/nginx/ssl/server.crt
   when: ssl_certificate is defined
 
 - name: Configure default server certificate when no custom certificate is defined
@@ -10,8 +14,12 @@
   when: ssl_certificate is not defined  
   
 - name: Add server key from a defined source
-  get_url: url={{ssl_key}} dest=/etc/nginx/ssl/server.key mode=0644
+  shell: s3cmd get {{ssl_key}} /etc/nginx/ssl/server.key --force  
   when: ssl_key is defined
+  
+- name: Assign proper permissions to the server key file
+  file: mode=0644 state=file path=/etc/nginx/ssl/server.key
+  when: ssl_key is defined  
 
 - name: Configure default server key when no custom key is defined
   template: src=server.key.j2 dest=/etc/nginx/ssl/server.key mode=0644
