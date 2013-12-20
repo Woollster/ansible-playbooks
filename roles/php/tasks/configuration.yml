@@ -17,4 +17,7 @@
   
 - name: Configure yaml ini script
   template: src=php_yaml.ini.j2 dest=/etc/php5/fpm/conf.d/php_yaml.ini mode=0644
+
+- name: Configure yaml ini script
+  template: src=www.conf.j2 dest=/etc/php5/fpm/pool.d/www.conf mode=0644
   notify: restart php5

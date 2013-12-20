@@ -10,5 +10,5 @@
   template: src=readFiles.js.j2 dest={{serf_install_dir}}/events/readFiles.js mode=0777
 
 - name: Placing serf config.
-  template: src=koolie_conf.json.j2 dest={{serf_install_dir}}/events/koolie_conf.json mode=0777
+  template: src=koolie_conf.json.j2 dest={{serf_install_dir}}/config/koolie_conf.json mode=0777
   notify: restart serf
