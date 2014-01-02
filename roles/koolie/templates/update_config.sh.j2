@@ -1,6 +1,7 @@
 #!/bin/bash
 DIR_NAME="/tmp/config_"$(date +"%s")"/";
-INSTANCE_ENV=`. get_tag.sh environment`
+source get_tags.sh
+INSTANCE_ENV=$EC2_TAG_environment
 mkdir $DIR_NAME
 
 {% for item in variable_namespaces %}
