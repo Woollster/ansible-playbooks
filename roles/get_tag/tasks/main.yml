@@ -12,4 +12,4 @@
   template: src=get_region.sh.j2 dest=/usr/bin/get_region.sh
 
 - name: Configure get_tag script.
-  template: src=get_tag.sh.j2 dest=/usr/bin/get_tag.sh
+  template: src=get_tags.sh.j2 dest=/usr/bin/get_tags.sh

@@ -1,0 +1,29 @@
+SOURCE_FILE_PATH="/tmp/tags.sh"
+
+EC2_INSTANCE_ID="`wget -q -O - http://169.254.169.254/latest/meta-data/instance-id || die \"wget instance-id has failed: $?\"`"
+test -n "$EC2_INSTANCE_ID" || die 'cannot obtain instance-id'
+EC2_REGION=`. get_region.sh`
+
+EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
+EC2_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed -e 's:\([0-9][0-9]*\)[a-z]*\$:\\1:'`"
+
+echo "[default]
+region = "$EC2_REGION > /root/.aws/config
+
+NUMBER_OF_TAGS=`aws ec2 describe-tags --filters "Name=resource-id,Values="$EC2_INSTANCE_ID --output text | grep "TAGS" -c`
+
+test -n "$NUMBER_OF_TAGS" || die 'no tags fetched'
+
+rm $SOURCE_FILE_PATH
+
+for (( c=0; c<$NUMBER_OF_TAGS; c++ ))
+do
+   TAG_VALUE=`aws ec2 describe-tags --filters "Name=resource-id,Values="$EC2_INSTANCE_ID --query "Tags["$c"].Value" --output text`
+
+   TAG_KEY=`aws ec2 describe-tags --filters "Name=resource-id,Values="$EC2_INSTANCE_ID --query "Tags["$c"].Key" --output text`
+
+   echo "export EC2_TAG_"$TAG_KEY"="$TAG_VALUE >> $SOURCE_FILE_PATH 
+done
+
+source $SOURCE_FILE_PATH
+rm $SOURCE_FILE_PATH
