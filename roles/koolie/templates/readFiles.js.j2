@@ -3,7 +3,7 @@ var fs = require("fs");
 var tmpFolder = process.argv[2];
 var separator = "#"
 var inputPath = "/etc/init/{{ app_name }}.conf";
-var tmpPath = "/tmp/update_config_"+Date.now();
+var tmpPath = "/tmp/update_config_"+Date.now(); 
 
 var retryCount = 0;
 var isInTheZone = false;
