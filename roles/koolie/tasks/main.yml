@@ -7,7 +7,12 @@
   template: src=update_config.sh.j2 dest={{serf_install_dir}}/events/update_config.sh mode=0777
 
 - name: Placing readFiles js.
-  template: src=readFiles.js.j2 dest={{serf_install_dir}}/events/readFiles.js mode=0777
+  template: src=writeConfig_node.js.j2 dest={{serf_install_dir}}/events/writeConfig.js mode=0777
+  when: koolie_php_config is not defined
+
+- name: Placing readFiles js.
+  template: src=writeConfig_php.js.j2 dest={{serf_install_dir}}/events/writeConfig.js mode=0777
+  when: koolie_php_config is defined
 
 - name: Placing serf config.
   template: src=koolie_conf.json.j2 dest={{serf_install_dir}}/config/koolie_conf.json mode=0777

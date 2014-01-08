@@ -1,0 +1,74 @@
+var fs = require("fs");
+
+var tmpFolder = process.argv[2];
+var separator = ";application config"
+var inputPath = "/var/www/{{ app_name }}/application/config/application.ini";
+var tmpPath = "/tmp/update_config_"+Date.now(); 
+
+var retryCount = 0;
+var isInTheZone = false;
+var lastRetry = Date.now();
+var theJobIsDone = false;
+var secondsBetweenRetries = 1;
+
+function extend(target) {
+    var sources = [].slice.call(arguments, 1);
+    sources.forEach(function (source) {
+        for (var prop in source) {
+            target[prop] = source[prop];
+        }
+    });
+    return target;
+}
+
+while (!theJobIsDone && retryCount < 10) {
+  var timeToRetry = Date.now();
+  if (timeToRetry > lastRetry + secondsBetweenRetries*1000) {
+    lastRetry = Date.now();
+    retryCount += 1;
+    console.log("#" + retryCount + " Attempt.");
+    try {
+      function parseLine(data) {
+        if (data) {
+          var result = "";
+          if (data == separator) {
+            isInTheZone = !isInTheZone;
+          }
+          if (isInTheZone && data != separator) {
+            result = "";
+          } else if (isInTheZone && data == separator) {
+            var parsedJson = "";
+            var rawJson = {};
+            files = fs.readdirSync(tmpFolder);
+            for (var i=0;i < files.length ; i++) {
+               rawJson= extend({},rawJson,JSON.parse(fs.readFileSync(tmpFolder+files[i])));
+            }
+            for (key in rawJson) {
+              parsedJson+="\n"+ key + "=" + rawJson[key];
+            }
+            result = "#" + parsedJson + "\n";
+          } else { 
+            result = data + "\n";
+          }
+          return result;
+        } else {
+          return "";
+        }
+      }
+     
+      fs.openSync(tmpPath, 'w')      
+      fs.readFileSync(inputPath).toString().split('\n').forEach(function(line) {
+        fs.appendFileSync(tmpPath, parseLine(line));
+      });
+      
+      fs.unlinkSync(inputPath);
+      var content = fs.readFileSync(tmpPath, null);
+      fs.writeFileSync(inputPath, content, null);
+      fs.unlinkSync(tmpPath);
+      theJobIsDone = true;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+}
