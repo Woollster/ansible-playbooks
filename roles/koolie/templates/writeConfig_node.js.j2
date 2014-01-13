@@ -46,7 +46,7 @@ while (!theJobIsDone && retryCount < 10) {
             for (key in rawJson) {
               parsedJson+="\nenv " + key + "=" + rawJson[key];
             }
-            result = "#" + parsedJson + "\n";
+            result = separator + parsedJson + "\n";
           } else {
             result = data + "\n";
           }

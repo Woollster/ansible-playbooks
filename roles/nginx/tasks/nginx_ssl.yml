@@ -24,3 +24,20 @@
 - name: Configure default server key when no custom key is defined
   template: src=server.key.j2 dest=/etc/nginx/ssl/server.key mode=0644
   when: ssl_key is not defined
+
+- name: Add origin certificate from a defined source
+  shell: s3cmd get {{origin_ssl_certificate}} /etc/nginx/ssl/origin.crt --force  
+  when: origin_ssl_certificate is defined
+  
+- name: Assign proper permissions to the origin certificate file
+  file: mode=0644 state=file path=/etc/nginx/ssl/origin.crt
+  when: origin_ssl_certificate is defined
+
+
+- name: Add origin key from a defined source
+  shell: s3cmd get {{origin_ssl_key}} /etc/nginx/ssl/origin.key --force  
+  when: origin_ssl_key is defined
+  
+- name: Assign proper permissions to the origin key file
+  file: mode=0644 state=file path=/etc/nginx/ssl/origin.key
+  when: origin_ssl_key is defined  

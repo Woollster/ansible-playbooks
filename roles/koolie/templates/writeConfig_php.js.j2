@@ -44,9 +44,9 @@ while (!theJobIsDone && retryCount < 10) {
                rawJson= extend({},rawJson,JSON.parse(fs.readFileSync(tmpFolder+files[i])));
             }
             for (key in rawJson) {
-              parsedJson+="\n"+ key + "=" + rawJson[key];
+              parsedJson+="\n"+ key + " = " + rawJson[key];
             }
-            result = "#" + parsedJson + "\n";
+            result = separator + parsedJson + "\n";
           } else { 
             result = data + "\n";
           }
