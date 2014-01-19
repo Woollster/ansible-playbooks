@@ -1,0 +1,32 @@
+- name: Apt install unzip packages.
+  apt: pkg=unzip state=installed
+
+- name: Apt install java.
+  apt: pkg=openjdk-7-jre-headless state=installed
+
+- name: Fetch elasticsearch
+  shell: sudo wget {{ elasticsearch_url }} chdir=/tmp/
+
+- name: Unzip file
+  shell: yes yes | sudo unzip /tmp/elasticsearch-{{elasticsearch_version}}.zip chdir=/tmp/
+
+- name: Create the elasticsearch directory.
+  file: mode=755 state=directory path={{elasticsearch_dir}}
+
+- name: Create the elasticsearch directory.
+  file: mode=755 state=directory path={{elasticsearch_data_dir}}
+
+- name: Move the files to the directory
+  shell: sudo mv -f /tmp/elasticsearch-{{elasticsearch_version}}/* {{elasticsearch_dir}}
+
+- name: Installs aws pluging
+  shell: sudo bin/plugin -install elasticsearch/elasticsearch-cloud-aws/{{elasticsearch_aws_version}} chdir={{elasticsearch_dir}}
+
+- name: Sets the elasticache configurations
+  template: src=elasticsearch.yml.j2 dest={{elasticsearch_dir}}/config/elasticsearch.yml
+
+- name: Configure upstart script.
+  template: src=upstart.conf.j2 dest=/etc/init/elasticsearch.conf
+
+- name: restart elasticsearch
+  service: name=elasticsearch state=restarted

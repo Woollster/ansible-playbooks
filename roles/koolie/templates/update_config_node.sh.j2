@@ -1,0 +1,15 @@
+#!/bin/bash
+DIR_NAME="/tmp/config_"$(date +"%s")"/";
+source get_tags.sh
+INSTANCE_ENV=$EC2_TAG_environment
+mkdir $DIR_NAME
+
+{% for item in variable_namespaces %}
+sudo koolie -c {{ koolie_bucket }} GETNS /applications/{{app_name}}/{{item}}/$INSTANCE_ENV --json --access_key {{ koolie_access_key }} --secret_key {{ koolie_access_secret }} > $DIR_NAME/1.json
+{% endfor %}
+
+node {{serf_install_dir}}/events/writeConfig.js $DIR_NAME
+rm -R $DIR_NAME
+
+stop {{ app_name }}
+start {{ app_name }}

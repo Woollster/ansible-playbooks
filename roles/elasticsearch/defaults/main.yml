@@ -1,0 +1,5 @@
+elasticsearch_version: "0.90.10"
+elasticsearch_url: "https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-{{ elasticsearch_version }}.zip"
+elasticsearch_dir: "/etc/elasticsearch"
+elasticsearch_data_dir: "/data/elasticsearch"
+elasticsearch_aws_version: "1.16.0"
