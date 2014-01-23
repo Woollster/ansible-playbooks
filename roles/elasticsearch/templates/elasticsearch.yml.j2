@@ -1,15 +1,11 @@
 cluster.name: woorank_es
 
-path.conf: {{elasticsearch_dir}}/config
-path.data: {{elasticsearch_dir}}/data
-path.logs: {{elasticsearch_dir}}/logs
+cloud:
+    aws:
+        access_key: {{elasticsearch_access_key}}
+        secret_key: {{elasticsearch_secret_key}}
 
-bootstrap.mlockall: true
+discovery:
+    type: ec2
 
-gateway.type: local
-
-cloud.aws.access_key: 
-cloud.aws.secret_key: 
-
-discovery.type: ec2
 discovery.ec2.tag.elasticsearch: true
