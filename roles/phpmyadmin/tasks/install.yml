@@ -1,0 +1,10 @@
+---
+
+- name: update package list
+  action: apt update_cache=yes
+
+- name: ensure phpmyadmin is installed
+  action: apt pkg=phpmyadmin state=present
+
+- name: ensure libapache2-mod-php5 is installed
+  action: apt pkg=libapache2-mod-php5 state=present

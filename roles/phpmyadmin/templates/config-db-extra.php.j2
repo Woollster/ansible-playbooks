@@ -1,0 +1,10 @@
+<?php
+/* Authentication type */
+$cfg['Servers'][$i]['auth_type'] = 'cookie';
+/* Server parameters */
+$cfg['Servers'][$i]['host'] = '{{hostdb}}';
+$cfg['Servers'][$i]['connect_type'] = 'tcp';
+$cfg['Servers'][$i]['compress'] = false;
+$cfg['Servers'][$i]['hide_db'] = '(mysql|information_schema|performance_schema|innodb)';
+$i++;
+?>
