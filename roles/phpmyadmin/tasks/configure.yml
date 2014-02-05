@@ -6,19 +6,15 @@
 - name: Setup http authentication
   template: src=http-auth.j2 dest=/usr/share/phpmyadmin/.htaccess mode=0755 owner=www-data group=www-data
 
-- name: Enable phpmyadmin conf to be rad from apache
-  lineinfile: dest=/etc/apache2/apache2.conf              
-              line='Include /etc/phpmyadmin/apache.conf' 
-
 - name: Enable phpmyadmin conf to be read from apache
   lineinfile: dest=/etc/apache2/apache2.conf              
               line='Include /etc/phpmyadmin/apache.conf'
 
-- name: Enable phpmyadmin conf to be rad from apache
+- name: Configure phpmyadmin
   lineinfile: dest=/etc/phpmyadmin/config.inc.php            
               line='require("/etc/phpmyadmin/config-db-extra.php");'
 
-- name: Add a new string at the end of the file
+- name: Configure phpmyadmin for apache
   lineinfile: dest=/etc/phpmyadmin/apache.conf              
               insertafter='DirectoryIndex'
               line='        AllowOverride All'             
