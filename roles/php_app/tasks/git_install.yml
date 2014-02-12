@@ -71,9 +71,8 @@
   with_items: ${special_permissions}
 
 - name: Make file executable
-  file: mode=755 state=file path=${deploy_dir}/${item}
-  with_items: ${executable_files}
-  when: executable_files is defined 
+  file: mode=755 state=file path=${deploy_dir}/${executable_file}
+  when: executable_file is defined  
 
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
