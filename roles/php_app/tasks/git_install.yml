@@ -26,7 +26,7 @@
   template: src=git_ssh.sh.j2 dest=/tmp/git_ssh.sh mode=700
 
 - name: Write code to the folder.
-  git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=${version}
+  git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=${version} accept_hostkey=true
   environment:
     GIT_SSH: /tmp/git_ssh.sh
 
