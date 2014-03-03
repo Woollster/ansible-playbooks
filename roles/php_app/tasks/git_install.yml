@@ -26,9 +26,7 @@
   template: src=git_ssh.sh.j2 dest=/tmp/git_ssh.sh mode=700
 
 - name: Write code to the folder.
-  git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=${version} accept_hostkey=true
-  environment:
-    GIT_SSH: /tmp/git_ssh.sh
+  git: repo=ssh://git@github.com/${repo}.git dest=${deploy_dir} version=${version} accept_hostkey=True key_file=/tmp/id_rsa_deployment  
 
 - name: Create extra directories.
   file: mode=777 state=directory path=${item}
