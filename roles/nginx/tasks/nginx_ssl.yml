@@ -1,5 +1,5 @@
 - name: Create the nginx ssl directory.
-  file: owner=${nginx_user} mode=755 state=directory path=/etc/nginx/ssl
+  file: owner={{nginx_user}} mode=755 state=directory path=/etc/nginx/ssl
 
 - name: Add server certificate from a defined source
   shell: s3cmd get {{ssl_certificate}} /etc/nginx/ssl/server.crt --force  
