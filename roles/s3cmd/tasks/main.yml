@@ -5,7 +5,7 @@
   file: state=directory path=/opt/s3cmd
 
 - name: Fetching s3cmd archive
-  get_url: url=https://github.com/s3tools/s3cmd/archive/v1.5.0-beta1.tar.gz dest=/tmp/v1.5.0-beta1.tar.gz
+  get_url: url=https://github.com/s3tools/s3cmd/archive/v1.5.0-beta1.tar.gz dest=/tmp/v1.5.0-beta1.tar.gz validate_certs=no
 
 - name: Unpack s3cmd tarball to app dir.
   command: tar zxf v1.5.0-beta1.tar.gz --strip-components=1  --no-same-owner -C /opt/s3cmd chdir=/tmp creates=/opt/s3cmd/s3cmd
