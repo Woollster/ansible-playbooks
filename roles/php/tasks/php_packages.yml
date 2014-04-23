@@ -6,3 +6,11 @@
 - name: Apt install required system packages.
   apt: pkg={{item}} state=installed
   with_items: php_packages
+
+- name: Install php apc cache
+  apt: pkg=php-apc state=installed
+  when: php_apc is defined
+  
+- name: Configure apc ini script
+  template: src=apc.ini.j2 dest=/etc/php5/fpm/conf.d/apc.ini mode=0644
+  when: php_apc is defined
