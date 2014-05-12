@@ -1,6 +1,6 @@
 port: 3000
-user: {{app_name}}
-group: {{app_name}}
+user: "{{app_name}}"
+group: "{{app_name}}"
 host: localhost
 base_dir: "/var/www"
 deploy_dir: "{{base_dir}}/{{app_name}}"
