@@ -2,7 +2,7 @@
 
 - name: Install potential extra packages needed.
   apt: pkg={{item}} state=installed
-  with_items: {{extra_php_packages}}
+  with_items: extra_php_packages
 
 - name: Create group.
   group: name={{group}} state=present
@@ -30,7 +30,7 @@
 
 - name: Create extra directories.
   file: mode=777 state=directory path={{item}}
-  with_items: {{extra_directories}}
+  with_items: extra_directories
   when: extra_directories is defined
     
 - name: Configure nginx template from defined source
@@ -66,7 +66,7 @@
   
 - name: Grant special permissions
   file: mode=777 state=directory path={{deploy_dir}}/{{item}}
-  with_items: {{special_permissions}}
+  with_items: special_permissions
 
 - name: Make file executable
   file: mode=755 state=file path={{deploy_dir}}/{{executable_file}}

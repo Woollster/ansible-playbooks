@@ -5,4 +5,4 @@
 
 - name: Apt install required graphmagick packages.
   apt: pkg={{item}} state=installed
-  with_items: {{graphmagick_packages}}
+  with_items: graphmagick_packages

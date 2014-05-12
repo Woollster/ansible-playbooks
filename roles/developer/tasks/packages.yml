@@ -6,4 +6,4 @@
 
 - name: Apt install required system packages.
   apt: pkg={{item}} state=installed
-  with_items: {{developer_packages}}
+  with_items: developer_packages

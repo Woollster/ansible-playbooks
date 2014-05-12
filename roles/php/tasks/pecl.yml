@@ -1,4 +1,4 @@
 - name: Install pecl components.
   shell: pecl install {{item}}
-  with_items: {{pecl_packages}}
+  with_items: pecl_packages
   when: php_with_pckgs == true
