@@ -1,6 +1,6 @@
 port: 3000
-user: {{app_name}}
-group: {{app_name}}
+user: "{{app_name}}"
+group: "{{app_name}}"
 deploy_dir: "/var/www/{{app_name}}"
 script: Server.js
 monit_http_check: /
