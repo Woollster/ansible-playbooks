@@ -1,5 +1,5 @@
 - name: Create the apache2 ssl directory.
-  file: owner=${apache2_user} mode=755 state=directory path=/etc/apache2/ssl
+  file: owner={{apache2_user}} mode=755 state=directory path=/etc/apache2/ssl
 
 - name: Add server certificate.
   template: src=server.crt.j2 dest=/etc/apache2/ssl/server.crt mode=0644

@@ -5,7 +5,7 @@
   apt: update_cache=yes cache_valid_time=3600
 
 - name: Apt install required system packages.
-  apt: pkg=${item} state=installed
+  apt: pkg={{item}} state=installed
   with_items:
     - gcc
     - build-essential
@@ -19,10 +19,10 @@
   file: state=directory path=/opt/goaccess
 
 - name: Fetching goaccess archive
-  get_url: url=http://downloads.sourceforge.net/project/goaccess/${goaccess_version}/${goaccess_tarball} dest=/tmp/${goaccess_tarball}
+  get_url: url=http://downloads.sourceforge.net/project/goaccess/{{goaccess_version}}/{{goaccess_tarball}} dest=/tmp/{{goaccess_tarball}}
 
 - name: Unpack goaccess tarball to app dir.
-  command: tar zxf ${goaccess_tarball} --strip-components=1  --no-same-owner -C /opt/goaccess chdir=/tmp creates=/opt/goaccess/configure
+  command: tar zxf {{goaccess_tarball}} --strip-components=1  --no-same-owner -C /opt/goaccess chdir=/tmp creates=/opt/goaccess/configure
 
 - name: Configure.
   command: ./configure --enable-geoip --enable-utf8 chdir=/opt/goaccess creates=/opt/goaccess/Makefile

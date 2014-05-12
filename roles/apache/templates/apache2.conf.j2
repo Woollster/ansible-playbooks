@@ -3,14 +3,14 @@
 #
 # The accept serialization lock file MUST BE STORED ON A LOCAL DISK.
 #
-LockFile ${APACHE_LOCK_DIR}/accept.lock
+LockFile {{APACHE_LOCK_DIR}}/accept.lock
 
 #
 # PidFile: The file in which the server should record its process
 # identification number when it starts.
 # This needs to be set in /etc/apache2/envvars
 #
-PidFile ${APACHE_PID_FILE}
+PidFile {{APACHE_PID_FILE}}
 
 #
 # Timeout: The number of seconds before receives and sends time out.
@@ -92,8 +92,8 @@ KeepAliveTimeout 5
 </IfModule>
 
 # These need to be set in /etc/apache2/envvars
-User ${APACHE_RUN_USER}
-Group ${APACHE_RUN_GROUP}
+User {{APACHE_RUN_USER}}
+Group {{APACHE_RUN_GROUP}}
 
 #
 # AccessFileName: The name of the file to look for in each directory
@@ -148,7 +148,7 @@ HostnameLookups Off
 # logged here.  If you *do* define an error logfile for a <VirtualHost>
 # container, that host's errors will be logged there and not here.
 #
-#ErrorLog ${APACHE_LOG_DIR}/error.log
+#ErrorLog {{APACHE_LOG_DIR}}/error.log
 
 ErrorLog "|/usr/sbin/rotatelogs {{deploy_dir}}/logs/error_%d-%m-%Y 86400"
 CustomLog "|/usr/sbin/rotatelogs {{deploy_dir}}/logs/access-logs/access_%d-%m-%Y 86400" combined

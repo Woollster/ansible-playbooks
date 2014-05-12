@@ -1,5 +1,5 @@
 - name: restart node app
-  service: name=${app_name} state=restarted
+  service: name={{app_name}} state=restarted
 
 - name: restart monit
   service: name=monit state=restarted

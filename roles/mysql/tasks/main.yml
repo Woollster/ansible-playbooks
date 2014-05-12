@@ -26,4 +26,4 @@
   shell: pip install MySQL-python
 
 - name: update mysql root password for all root accounts
-  mysql_user: name=${mysql_user} host=${mysql_host} password=${mysql_root_password}
+  mysql_user: name={{mysql_user}} host={{mysql_host}} password={{mysql_root_password}}

@@ -1,25 +1,25 @@
 ---
 
 - name: Install potential extra packages needed.
-  apt: pkg=${item} state=installed
-  with_items: ${extra_php_packages}
+  apt: pkg={{item}} state=installed
+  with_items: {{extra_php_packages}}
 
 - name: Create group.
-  group: name=${group} state=present
+  group: name={{group}} state=present
 
 - name: Create user.
-  user: name=${user} group=${group} system=yes state=present
+  user: name={{user}} group={{group}} system=yes state=present
 
 - name: Create extra directories.
   template: src=rc.local.j2 dest=/etc/rc.local mode=777
   when: extra_directories is defined
 
 - name: Create the app directory.
-  file: group=${group} owner=${user} mode=755 state=directory path=${deploy_dir}
+  file: group={{group}} owner={{user}} mode=755 state=directory path={{deploy_dir}}
 
 ### MIGRATE TO BUILD PROCESS ###
 - name: Upload the SSH key
-  copy: src=${deploy_key} dest=/tmp/id_rsa_deployment mode=600
+  copy: src={{deploy_key}} dest=/tmp/id_rsa_deployment mode=600
   when: deploy_key is defined
 
 - name: Configure SSH script
@@ -29,34 +29,34 @@
   git: repo=ssh://git@github.com/{{repo}}.git dest={{deploy_dir}} ssh_opts="-o StrictHostKeyChecking=no" key_file=/tmp/id_rsa_deployment  
 
 - name: Create extra directories.
-  file: mode=777 state=directory path=${item}
-  with_items: ${extra_directories}
+  file: mode=777 state=directory path={{item}}
+  with_items: {{extra_directories}}
   when: extra_directories is defined
     
 - name: Configure nginx template from defined source
-  template: src=${deploy_dir}${app_template} dest=/etc/nginx/sites-available/${app_name}
+  template: src={{deploy_dir}}{{app_template}} dest=/etc/nginx/sites-available/{{app_name}}
   when: app_template is defined
 
 - name: Configure default nginx template when no custom template is defined
-  template: src=app.nginx.j2 dest=/etc/nginx/sites-available/${app_name}
+  template: src=app.nginx.j2 dest=/etc/nginx/sites-available/{{app_name}}
   when: app_template is not defined
 
 - name: Link nginx template.
-  file: src=/etc/nginx/sites-available/${app_name} dest=/etc/nginx/sites-enabled/${app_name} state=link
+  file: src=/etc/nginx/sites-available/{{app_name}} dest=/etc/nginx/sites-enabled/{{app_name}} state=link
   notify: restart nginx 
 
 - name: Write configuration json
   template: src=config.json.j2 dest=/tmp/config.json
 
 - name: Format configuration json
-  shell: cat /tmp/config.json | sed 's/\\//g' >> ${deploy_dir}/${config_dir}config.json
+  shell: cat /tmp/config.json | sed 's/\\//g' >> {{deploy_dir}}/{{config_dir}}config.json
   notify: restart php5
 
 
 ### END MIGRATE TO BUILD PROCESS ###
 
 - name: Change permissions.
-  shell: chown -R ${user}:${group} ${deploy_dir}
+  shell: chown -R {{user}}:{{group}} {{deploy_dir}}
   
 - name: ensure nginx is running
   service: name=nginx state=started
@@ -65,11 +65,11 @@
   service: name=php5-fpm state=restarted 
   
 - name: Grant special permissions
-  file: mode=777 state=directory path=${deploy_dir}/${item}
-  with_items: ${special_permissions}
+  file: mode=777 state=directory path={{deploy_dir}}/{{item}}
+  with_items: {{special_permissions}}
 
 - name: Make file executable
-  file: mode=755 state=file path=${deploy_dir}/${executable_file}
+  file: mode=755 state=file path={{deploy_dir}}/{{executable_file}}
   when: executable_file is defined  
 
 - name: Configure monit script.

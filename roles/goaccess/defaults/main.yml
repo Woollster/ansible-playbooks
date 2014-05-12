@@ -1,2 +1,2 @@
 goaccess_version: "0.7"
-goaccess_tarball: "goaccess-${goaccess_version}.tar.gz"
+goaccess_tarball: "goaccess-{{goaccess_version}}.tar.gz"

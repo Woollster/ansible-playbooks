@@ -1,7 +1,7 @@
 ---
 
 - name: Apt install postgres system packages.
-  apt: pkg=${item} state=installed update-cache=yes
+  apt: pkg={{item}} state=installed update-cache=yes
   with_items:
   - libpq-dev
   - python-psycopg2

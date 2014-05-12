@@ -1,9 +1,9 @@
 port: 3000
-user: ${app_name}
-group: ${app_name}
+user: {{app_name}}
+group: {{app_name}}
 host: localhost
 base_dir: "/var/www"
-deploy_dir: "${base_dir}/${app_name}"
+deploy_dir: "{{base_dir}}/{{app_name}}"
 monit_http_check: /
 special_permissions:
    - /application
