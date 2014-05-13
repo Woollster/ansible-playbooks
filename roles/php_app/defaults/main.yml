@@ -4,6 +4,7 @@ group: "{{app_name}}"
 host: localhost
 base_dir: "/var/www"
 deploy_dir: "{{base_dir}}/{{app_name}}"
+config_dir: ""
 monit_http_check: /
 special_permissions:
    - /application
