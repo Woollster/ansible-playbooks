@@ -29,6 +29,10 @@
 - name: Write code to the folder.
   git: repo=ssh://git@github.com/{{repo}}.git dest={{deploy_dir}} ssh_opts="-o StrictHostKeyChecking=no" key_file=/tmp/id_rsa_deployment  
 
+- name: Install "bower" node.js package globally.
+  npm: name=bower global=yes
+  when: require_bower is defined
+
 - name: Npm install.
   command: npm install --production chdir={{deploy_dir}}
   notify: restart node app
