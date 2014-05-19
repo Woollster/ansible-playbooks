@@ -27,7 +27,7 @@
   template: src=git_ssh.sh.j2 dest=/tmp/git_ssh.sh mode=700
 
 - name: Write code to the folder.
-  git: repo=ssh://git@github.com/{{repo}}.git dest={{deploy_dir}} ssh_opts="-o StrictHostKeyChecking=no" key_file=/tmp/id_rsa_deployment  
+  git: repo=ssh://git@github.com/{{repo}}.git dest={{deploy_dir}}  version={{version}} ssh_opts="-o StrictHostKeyChecking=no" key_file=/tmp/id_rsa_deployment  
 
 - name: Install "bower" node.js package globally.
   npm: name=bower global=yes
