@@ -37,7 +37,7 @@
   command: npm install --production chdir={{deploy_dir}}
   notify: restart node app
 
-- name: Npm install.
+- name: Npm install with unsafe-perm.
   command: npm install --unsafe-perm --production chdir={{deploy_dir}}
   when: npm_unsafe_perm is defined
   notify: restart node app  
