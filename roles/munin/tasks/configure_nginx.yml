@@ -4,8 +4,12 @@
   template: src=nginx.ini.j2 dest=/etc/nginx/sites-available/{{munin_port}}
 
 - name: Link nginx template.
-  file: src=/etc/nginx/sites-available/{{munin_port}} dest=/etc/nginx/sites-enabled/{{munin_port}} state=link  
+  file: src=/etc/nginx/sites-available/{{munin_port}} dest=/etc/nginx/sites-enabled/{{munin_port}} state=link
+
+- name: Ensure python-passlib is installed
+  action: apt pkg=python-passlib  state=installed  
   
 - name: Generate a htpasswd file in /etc/nginx
-  command: echo -e "{{munin_user}}:`perl -le 'print crypt("{{munin_pass}}","salt")'`" > /etc/nginx/htpasswd
+  htpasswd: path=/etc/nginx/passwdfile name={{munin_user}} password={{munin_pass}} owner=root group=www-data mode=0640
   notify: restart nginx
+  
