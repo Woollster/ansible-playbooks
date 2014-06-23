@@ -1,9 +1,9 @@
 ---
 
-- name: ensure munin is installed
+- name: Ensure munin is installed
   action: apt pkg=munin  state=installed
   
-- name: ensure munin-node is installed
+- name: Ensure munin-node is installed
   action: apt pkg=munin-node  state=installed
   
 - name: Configure munin to allow hosts.

@@ -7,5 +7,5 @@
   file: src=/etc/nginx/sites-available/{{munin_port}} dest=/etc/nginx/sites-enabled/{{munin_port}} state=link  
   
 - name: Generate a htpasswd file in /etc/nginx
-  command: echo -e "woowoo:`perl -le 'print crypt("w00+","salt")'`" > /etc/nginx/htpasswd
+  command: echo -e "{{munin_user}}:`perl -le 'print crypt("{{munin_pass}}","salt")'`" > /etc/nginx/htpasswd
   notify: restart nginx
