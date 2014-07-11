@@ -40,7 +40,7 @@
 - name: Npm install with unsafe-perm.
   command: npm install --unsafe-perm --production chdir={{deploy_dir}}
   when: npm_unsafe_perm is defined
-  notify: restart node app  
+  notify: restart node app 
 
 ### END MIGRATE TO BUILD PROCESS ###
 
@@ -55,3 +55,8 @@
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
   notify: restart monit
   when: monit_http_check is defined
+
+- name: Configure rsyslog script.
+  template: src=rsyslog-logentries.nodeapp.conf.j2 dest=/etc/rsyslog.d/{{app_name}}.conf
+  notify: restart rsyslog
+  when: logentries_token is defined

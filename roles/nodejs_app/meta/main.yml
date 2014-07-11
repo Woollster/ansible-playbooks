@@ -3,3 +3,4 @@ dependencies:
   - { role: nodejs }
   - { role: graphmagick }
   - { role: imagemagick }
+  - { role: rsyslog }

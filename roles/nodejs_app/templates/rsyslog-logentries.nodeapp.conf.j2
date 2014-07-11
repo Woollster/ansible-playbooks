@@ -1,0 +1,13 @@
+$Modload imfile
+
+$InputFileName /var/log/{{ app_name }}.log
+$InputFileTag {{ app_name }}
+$InputFileStateFile {{ app_name }}-file
+$InputFileSeverity info
+$InputFileFacility local7
+$InputRunFileMonitor
+$InputFilePollInterval 10
+
+$template Logentries,"{{ logentries_token }} %msg%\n"
+if $programname == '{{ app_name }}' then @@data.logentries.com:10000;Logentries
+& ~
