@@ -18,4 +18,4 @@ env {{ item }}
 {% endfor %}
 #
 
-exec node --trace-deprecation {{ deploy_dir }}/{{ script }} >> /var/log/{{ app_name }}.log 2>&1
+exec {{ exec_command }}

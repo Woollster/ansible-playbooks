@@ -6,3 +6,4 @@ script: Server.js
 monit_http_check: /
 version: master
 ulimit_openfiles: 1024
+exec_command: "node --trace-deprecation {{deploy_dir}}/{{script}} >> /var/log/{{app_name}}.log 2>&1"
