@@ -1,0 +1,8 @@
+---
+- name: Apt install rsyslog packages.
+  apt: pkg={{item}} state=installed
+  with_items: rsyslog_packages
+
+- name: Configure rsyslog.
+  template: src=rsyslog.conf.j2 dest=/etc/rsyslog.conf
+  notify: restart rsyslog
