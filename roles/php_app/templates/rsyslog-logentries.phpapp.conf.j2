@@ -20,6 +20,6 @@ $template Logentries,"{{ logentries_token }} %HOSTNAME% %syslogtag%: %msg%\n"
 if $programname == 'access-{{ app_name }}-log' then @@data.logentries.com:10000;Logentries
 & ~
 
-$template ErrorLogentries,"9fee895d-2b5c-47e4-84e4-2cc28d4775d7 %HOSTNAME% %syslogtag%: %msg%\n"
+$template ErrorLogentries,"{{ logentries_token }} %HOSTNAME% %syslogtag%: %msg%\n"
 if $programname == 'error-{{ app_name }}-log' then @@data.logentries.com:10000;ErrorLogentries
 & ~
