@@ -4,3 +4,4 @@ dependencies:
   - { role: nginx }
   - { role: php }
   - { role: redis }
+  - { role: rsyslog }

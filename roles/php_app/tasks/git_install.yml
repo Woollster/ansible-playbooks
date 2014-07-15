@@ -74,4 +74,10 @@
 
 - name: Configure monit script.
   template: src=monit.conf.j2 dest=/etc/monit/conf.d/{{app_name}}.conf
-  notify: restart monit  
+  notify: restart monit
+  
+- name: Configure rsyslog script.
+  template: src=rsyslog-logentries.phpapp.conf.j2 dest=/etc/rsyslog.d/nginx-logentries-{{app_name}}.conf
+  notify: restart rsyslog
+  when: logentries_token is defined
+  
