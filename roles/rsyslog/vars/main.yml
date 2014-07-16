@@ -1,3 +1,2 @@
 rsyslog_packages:
   - rsyslog
-  - rsyslog-gnutls

@@ -1,6 +1,9 @@
 ---
-- name: Apt install rsyslog packages.
-  apt: pkg={{item}} state=installed
+- name: Add git ppa key
+  action: apt_repository repo=ppa:adiscon/v8-devel state=present
+  
+- name: Apt install latest rsyslog packages via ppa.
+  apt: pkg={{item}} state=latest update_cache=yes  
   with_items: rsyslog_packages
 
 - name: Configure rsyslog.
