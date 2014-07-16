@@ -20,6 +20,6 @@ $template Logentries,"{{ logentries_token }} %msg%\n"
 if $programname == '{{ app_name }}' then @@data.logentries.com:10000;Logentries
 & ~
 
-$template Logentries,"{{ logentries_monit_token }} %HOSTNAME% %syslogtag%: %msg%\n"
-if $programname == 'monit-{{ app_name }}-log' then @@data.logentries.com:10000;Logentries
+$template ErrorLogentries,"{{ logentries_monit_token }} %HOSTNAME% %syslogtag%: %msg%\n"
+if $programname == 'monit-{{ app_name }}-log' then @@data.logentries.com:10000;ErrorLogentries
 & ~
