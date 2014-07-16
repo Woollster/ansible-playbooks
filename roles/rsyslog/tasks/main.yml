@@ -1,6 +1,6 @@
 ---
 - name: Add git ppa key
-  action: apt_repository repo=ppa:adiscon/v8-devel state=present
+  action: apt_repository repo=ppa:adiscon/v8-stable state=present
   
 - name: Apt install latest rsyslog packages via ppa.
   apt: pkg={{item}} state=latest update_cache=yes  
