@@ -16,10 +16,10 @@ $InputFileFacility local7
 $InputRunFileMonitor
 $InputFilePollInterval 10
 
-$template Logentries,"{{ logentries_token }} %HOSTNAME% %syslogtag%: %msg%\n"
+$template Logentries,"{{ logentries_accesslog_token }} %HOSTNAME% %syslogtag%: %msg%\n"
 if $programname == 'access-{{ app_name }}-log' then @@data.logentries.com:10000;Logentries
 & ~
 
-$template ErrorLogentries,"{{ logentries_token }} %HOSTNAME% %syslogtag%: %msg%\n"
+$template ErrorLogentries,"{{ logentries_errorlog_token }} %HOSTNAME% %syslogtag%: %msg%\n"
 if $programname == 'error-{{ app_name }}-log' then @@data.logentries.com:10000;ErrorLogentries
 & ~
