@@ -14,7 +14,7 @@ $InputFileStateFile monit-{{ app_name }}-log-file
 $InputFileSeverity info
 $InputFileFacility local7
 $InputRunFileMonitor
-$InputFilePollInterval 30
+$InputFilePollInterval 10
 
 $template Logentries,"{{ logentries_token }} %msg%\n"
 if $programname == '{{ app_name }}' then @@data.logentries.com:10000;Logentries
