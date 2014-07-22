@@ -5,6 +5,9 @@
 - name: Apt install latest rsyslog packages via ppa.
   apt: pkg={{item}} state=latest update_cache=yes  
   with_items: rsyslog_packages
+  
+- name: Fix bug for which rsyslog stops working after logrotate  
+  replace: dest=/etc/logrotate.d/rsyslog regexp='(\s+)reload rsyslog(\s+.*)?$' replace='\1restart rsyslog\2' backup=no  
 
 - name: Configure rsyslog.
   template: src=rsyslog.conf.j2 dest=/etc/rsyslog.conf
