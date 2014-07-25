@@ -8,7 +8,7 @@ $InputFileFacility local7
 $InputRunFileMonitor
 $InputFilePollInterval 10
 
-$InputFileName /var/log/nginx/error.log
+$InputFileName /var/log/nginx/error.{{ app_name }}.log
 $InputFileTag error-{{ app_name }}-log
 $InputFileStateFile error-{{ app_name }}-log-file
 $InputFileSeverity info
