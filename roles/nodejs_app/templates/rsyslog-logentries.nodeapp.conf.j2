@@ -8,6 +8,7 @@ $InputFileFacility local7
 $InputRunFileMonitor
 $InputFilePollInterval 10
 
+{% if logentries_monit_token is defined %}
 $InputFileName /var/log/monit.log
 $InputFileTag monit-{{ app_name }}-log
 $InputFileStateFile monit-{{ app_name }}-log-file
@@ -15,11 +16,14 @@ $InputFileSeverity info
 $InputFileFacility local7
 $InputRunFileMonitor
 $InputFilePollInterval 10
+{% endif %}
 
 $template Logentries,"{{ logentries_token }} %msg%\n"
 if $programname == '{{ app_name }}' then @@data.logentries.com:10000;Logentries
 & ~
 
+{% if logentries_monit_token is defined %}
 $template ErrorLogentries,"{{ logentries_monit_token }} %HOSTNAME% %syslogtag%: %msg%\n"
 if $programname == 'monit-{{ app_name }}-log' then @@data.logentries.com:10000;ErrorLogentries
 & ~
+{% endif %}
