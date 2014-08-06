@@ -7,13 +7,14 @@ $InputFileStateFile {{ token.filestatefile }}
 $InputFileSeverity info
 $InputFileFacility local7
 $InputRunFileMonitor
+
 {% endfor %}
 
 $InputFilePollInterval 10
 
 {% for token in logentries_token %}
 $template ErrorLogentries,"{{ token.value }} %HOSTNAME% %syslogtag%: %msg%\n"
-if $programname == '{{ token.filename }}' then @@data.logentries.com:10000;ErrorLogentries
+if $programname == '{{ token.filetag }}' then @@data.logentries.com:10000;ErrorLogentries
 & ~
 
 {% endfor %}
