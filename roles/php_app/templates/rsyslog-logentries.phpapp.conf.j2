@@ -1,13 +1,19 @@
 $Modload imfile
 
-$InputFileName /var/log/nginx/error.{{ app_name }}.log
-$InputFileTag error-{{ app_name }}-log
-$InputFileStateFile error-{{ app_name }}-log-file
+{% for token in logentries_token %}
+$InputFileName {{ token.filename }}
+$InputFileTag {{ token.filetag }}
+$InputFileStateFile {{ token.filestatefile }}
 $InputFileSeverity info
 $InputFileFacility local7
 $InputRunFileMonitor
+{% endfor %}
+
 $InputFilePollInterval 10
 
-$template ErrorLogentries,"{{ logentries_errorlog_token }} %HOSTNAME% %syslogtag%: %msg%\n"
-if $programname == 'error-{{ app_name }}-log' then @@data.logentries.com:10000;ErrorLogentries
+{% for token in logentries_token %}
+$template ErrorLogentries,"{{ token.value }} %HOSTNAME% %syslogtag%: %msg%\n"
+if $programname == '{{ token.filename }}' then @@data.logentries.com:10000;ErrorLogentries
 & ~
+
+{% endfor %}
