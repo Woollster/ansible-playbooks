@@ -1,0 +1,11 @@
+---
+# These tasks install wkhtmltopdf from source.
+
+- name: Create the wkhtmltopdf app directory.
+  file: state=directory path=/opt/wkhtmltopdf
+
+- name: Fetching wkhtmltopdf archive
+  get_url: url=http://downloads.sourceforge.net/project/wkhtmltopdf/{{version}}/wkhtmltox-{{version}}_linux-precise-amd64.deb dest=/opt/wkhtmltopdf/wkhtmltox-{{version}}_linux-precise-amd64.deb validate_certs=no
+
+- name: Install wkthtmltopdf package
+  command: apt deb=/opt/wkhtmltopdf/wkhtmltox-{{version}}_linux-precise-amd64.deb state=installed
