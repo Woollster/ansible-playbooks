@@ -5,7 +5,7 @@
   file: state=directory path=/opt/wkhtmltopdf
 
 - name: Fetching wkhtmltopdf archive
-  get_url: url=http://downloads.sourceforge.net/project/wkhtmltopdf/{{version}}/wkhtmltox-{{version}}_linux-precise-amd64.deb dest=/opt/wkhtmltopdf/wkhtmltox-{{version}}_linux-precise-amd64.deb validate_certs=no
+  get_url: url=http://downloads.sourceforge.net/project/wkhtmltopdf/{{wk_version}}/wkhtmltox-{{wk_version}}_linux-precise-amd64.deb dest=/opt/wkhtmltopdf/wkhtmltox-{{wk_version}}_linux-precise-amd64.deb validate_certs=no
 
 - name: Install wkthtmltopdf package
-  command: apt deb=/opt/wkhtmltopdf/wkhtmltox-{{version}}_linux-precise-amd64.deb state=installed
+  command: apt deb=/opt/wkhtmltopdf/wkhtmltox-{{wk_version}}_linux-precise-amd64.deb state=installed
