@@ -1,5 +1,9 @@
 ---
 
+- name: Install potential extra packages needed.
+  apt: pkg={{item}} state=installed
+  with_items: extra_node_packages
+
 - name: Deploy application.
   shell: echo Deploying {{app_name}} on port {{port}}
 
