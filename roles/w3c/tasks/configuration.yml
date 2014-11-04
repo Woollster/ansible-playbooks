@@ -1,0 +1,12 @@
+---
+# These tasks configures the W3C validator to use validator.nu  
+
+- name:  Enable HTML5 checking
+  lineinfile: dest=/usr/local/validator/htdocs/config/validator.conf
+              regexp='^#HTML5'
+              line='HTML5 = http://localhost:{{validatornu_port}}/html5/'
+
+- name:  Enable CompoundXML checking
+  lineinfile: dest=/usr/local/validator/htdocs/config/validator.conf
+              regexp='^#CompoundXML'
+              line='CompoundXML = http://localhost:{{validatornu_port}}/'

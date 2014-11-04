@@ -1,0 +1,26 @@
+w3c_packages:
+  - opensp
+  - libosp-dev
+  - apache2-mpm-prefork
+  - libxml2-dev
+  - zlib1g-dev
+ 
+
+perl_packages:
+  - libapache2-mod-perl2
+  - libxml-libxml-perl
+  - libconfig-general-perl
+  - libencode-hanextra-perl
+  - libhtml-encoding-perl
+  - liblocal-lib-perl
+  - libtemplate-perl
+  - libhtml-template-perl
+  - libconfig-json-perl
+  - libsgml-parser-opensp-perl
+  - libnet-ip-perl
+  
+  
+validator_nu_packages:
+  - mercurial
+  - subversion
+  - default-jdk

@@ -1,0 +1,43 @@
+---
+# These tasks install w3c validator.
+- name: Create the validator directory.
+  file: state=directory path=/usr/local/validator
+  
+- name: Move cgi-bin to validator directory
+  copy: src=/opt/validator-{{w3c_version}}/httpd/cgi-bin dest=/usr/local/validator
+
+- name: Move htdocs to validator directory
+  copy: src=/opt/validator-{{w3c_version}}/htdocs dest=/usr/local/validator
+
+- name: Move share to validator directory
+  copy: src=/opt/validator-{{w3c_version}}/share dest=/usr/local/validator
+
+- name: Move httpd to validator directory
+  copy: src=/opt/validator-{{w3c_version}}/httpd dest=/usr/local/validator  
+
+- name: Move sgml-lib to validator directory
+  copy: src=/opt/validator-{{sgml_lib_version}}/htdocs/sgml-lib dest=/usr/local/validator/htdocs/
+  
+- name: Create the validator conf directory.
+  file: state=directory path=/etc/w3c
+  
+- name: Copy httpd conf file to the validator conf directory
+  copy: src=/opt/validator-{{w3c_version}}/httpd/conf/httpd.conf dest=/etc/w3c/httpd.conf
+
+- name: Symlink the httpd conf
+  file: dest=/etc/apache2/conf.d/w3c-validator.conf src=/etc/w3c/httpd.conf state=link
+
+- name: Symlink the validator conf
+  file: dest=/etc/w3c/validator.conf src=/usr/local/validator/htdocs/config/validator.conf state=link
+
+- name: Symlink the types conf file
+  file: dest=/etc/w3c/types.conf src=/usr/local/validator/htdocs/config/types.conf state=link
+  
+- name: Symlink the tidy conf file
+  file: dest=/etc/w3c/tidy.conf src=/usr/local/validator/htdocs/config/tidy.conf state=link
+  
+- name: Symlink the charset cfg file
+  file: dest=/etc/w3c/charset.cfg src=/usr/local/validator/htdocs/config/charset.cfg state=link
+
+- name: ensure apache2 is running
+  service: name=apache2 state=started

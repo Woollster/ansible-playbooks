@@ -1,0 +1,24 @@
+---
+
+- name: Install potential extra packages needed for validator.nu.
+  apt: pkg={{item}} state=installed
+  with_items: validator_nu_packages
+  
+- name: Create the validator.nu directory.
+  file: state=directory path=/usr/local/validator-nu
+  
+- name: Write code to the folder.
+  git: repo=https://github.com/validator/validator.git dest=/usr/local/validator-nu
+
+- name: Build the validator.nu
+  command: python ./build/build.py all chdir=/usr/local/validator-nu
+  ignore_errors: yes  
+  environment: env
+  
+- name: Map template for creating a service
+  template: src=validatornu.conf.j2 dest=/etc/init/html5-validator.conf
+
+- name: Start validator.nu
+  service: name=html5-validator state=running enabled=yes
+  environment: env
+  

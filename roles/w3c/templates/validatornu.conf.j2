@@ -1,0 +1,10 @@
+description "Validator.nu HTML5 Validator"
+
+start on runlevel [234]
+stop on runlevel [0156]
+
+env JAVA_HOME="/usr/lib/jvm/java-6-openjdk"
+
+chdir /usr/local/validator-nu
+exec python build/build.py all --control-port=8888 run
+respawn

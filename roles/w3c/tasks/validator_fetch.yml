@@ -1,0 +1,8 @@
+---
+# These tasks fetch W3C Validator library package
+  
+- name: Fetching W3C Validator library package
+  get_url: url=http://validator.w3.org/validator.tar.gz dest=/opt/
+
+- name: Unpack sgml-lib tarball.
+  command: tar zxf validator.tar.gz --no-same-owner -C /opt chdir=/opt

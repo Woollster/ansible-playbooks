@@ -1,0 +1,8 @@
+---
+- include: w3c_packages.yml
+- include: tidyp_install.yml
+- include: sgml_fetch.yml
+- include: validator_fetch.yml
+- include: w3c_install.yml
+- include: validator_nu_setup.yml
+- include: configuration.yml

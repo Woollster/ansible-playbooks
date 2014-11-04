@@ -1,0 +1,12 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Apt install required w3c packages.
+  apt: pkg={{item}} state=installed
+  with_items: w3c_packages
+
+- name: Apt install required perl packages.
+  apt: pkg={{item}} state=installed
+  with_items: perl_packages

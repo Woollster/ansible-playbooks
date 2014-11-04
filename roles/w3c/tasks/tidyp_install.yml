@@ -1,0 +1,22 @@
+---
+# These tasks install tidyp.
+- name: Create the tidyp directory.
+  file: state=directory path=/opt/tidyp
+  
+- name: Fetching tidyp package
+  get_url: url=ftp://ftp.tw.freebsd.org/pub/FreeBSD/FreeBSD/ports/distfiles/tidyp-1.04.tar.gz dest=/opt/tidyp/tidyp-{{tidyp_version}} validate_certs=no
+
+- name: Unpack tidyp tarball.
+  command: tar zxf tidyp-{{tidyp_version}} --strip-components=1  --no-same-owner -C /opt/tidyp chdir=/opt/tidyp
+
+- name: Configure tidyp from source
+  command: ./configure chdir=/opt/tidyp
+  
+- name: Make tidyp from source
+  command: make chdir=/opt/tidyp
+  
+- name: Make install tidyp from source
+  command: make install chdir=/opt/tidyp
+  
+- name: Creates the necessary links and cache
+  command: ldconfig chdir=/opt/tidyp
